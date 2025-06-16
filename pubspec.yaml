@@ -58,7 +58,7 @@ flutter_launcher_icons:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/landing_screen/LS01.png
+    - assets/landing_screen/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

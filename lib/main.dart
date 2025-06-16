@@ -1,3 +1,4 @@
+import 'package:dine_ease/views/landingPage/get_started.dart';
 import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
 
