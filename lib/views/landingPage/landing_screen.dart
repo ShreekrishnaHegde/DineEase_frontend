@@ -9,22 +9,15 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth=MediaQuery.of(context).size.width;
     final screenHeight=MediaQuery.of(context).size.height;
-    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-      foregroundColor: Colors.black87,
-      minimumSize: Size(double.infinity, 50),
-      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
-      ),
-      backgroundColor: Colors.amber,
-    );
+
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-      foregroundColor: Colors.black87,
-      backgroundColor: Colors.grey[300],
-      minimumSize: Size(88, 36),
-      padding: EdgeInsets.symmetric(horizontal: 16),
+
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.black,
+      minimumSize: Size(double.infinity,50),
+      // padding: EdgeInsets.symmetric(horizontal: 100),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(2)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
     return Scaffold(
@@ -45,23 +38,34 @@ class LandingScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32,vertical: 8),
                 child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                  style: raisedButtonStyle,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                   },
-                  // style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 50)),
-                  style: flatButtonStyle,
-                  child: Text("Login"),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    ),
+                  ),
                 ),
               ),
               //SignUp Button
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32,vertical: 8),
                 child: ElevatedButton(
-                  onPressed: (){
+                  style: raisedButtonStyle,
+                  onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
                   },
-                  style: flatButtonStyle,
-                  child: Text("SignUp"),
+                  child: Text(
+                    "SignUp",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 45)

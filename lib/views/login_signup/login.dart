@@ -25,7 +25,6 @@ class _LoginState extends State<Login> {
       filled: true,
       fillColor: Colors.grey.shade100,
     );
-
   }
   @override
   Widget build(BuildContext context) {
@@ -45,6 +44,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Text(
           "Login",
@@ -85,6 +85,10 @@ class _LoginState extends State<Login> {
                   children: [
                     Text("Don't have an account?"),
                     TextButton(
+                      style: ButtonStyle(
+                        splashFactory: NoSplash.splashFactory,
+                        overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      ),
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
                       },
@@ -97,7 +101,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

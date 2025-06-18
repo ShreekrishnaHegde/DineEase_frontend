@@ -1,3 +1,4 @@
+import 'package:dine_ease/views/login_signup/login.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
@@ -26,10 +27,22 @@ class _SignupState extends State<Signup> {
   }
   @override
   Widget build(BuildContext context) {
+    String? selectedRole;
     final screen_width=MediaQuery.of(context).size.width;
     final screen_height=MediaQuery.of(context).size.height;
+    final List<String> roles = ['Hotel', 'Guest'];
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.black,
+      minimumSize: Size(double.infinity,50),
+      // padding: EdgeInsets.symmetric(horizontal: 100),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           "Sign Up",
           style: TextStyle(
@@ -44,7 +57,7 @@ class _SignupState extends State<Signup> {
             padding: EdgeInsets.all(20),
             child: Column(
               children: [
-                SizedBox(height: screen_height/10,),
+                SizedBox(height: screen_height/25,),
                 TextFormField(
                   decoration: buildInputDecoration("Full Name"),
                 ),
@@ -57,7 +70,58 @@ class _SignupState extends State<Signup> {
                   obscureText: true,
                   decoration: buildInputDecoration("Password"),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: screen_height/50,),
+                DropdownButtonFormField(
+                    decoration: buildInputDecoration("Select Role"),
+                    value: selectedRole,
+                    items: roles.map(
+                            (role){
+                          return DropdownMenuItem(
+                            value: role,
+                            child: Text(role),
+                          );
+                        }
+                    ).toList(),
+                    onChanged: (value){
+                      setState(() {
+                        selectedRole=value;
+                      });
+                    }
+                ),
+                SizedBox(height: screen_height/50,),
+                ElevatedButton(
+                  style: raisedButtonStyle,
+                  onPressed: () { },
+                  child: Text(
+                    "Signup",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Already have an account?"),
+                    TextButton(
+                      style: ButtonStyle(
+                        splashFactory: NoSplash.splashFactory,
+                        overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      ),
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                      },
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
