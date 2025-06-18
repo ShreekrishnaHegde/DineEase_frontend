@@ -11,7 +11,9 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final authService = AuthService();
   String? email;
-
+  void logout() async{
+    await authService.signOut();
+  }
   @override
   void initState() {
     super.initState();
@@ -20,6 +22,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Profile"),
+        actions: [
+          IconButton(
+            onPressed:logout ,
+            icon:const Icon(Icons.logout),
+          )
+        ],
+      ),
       body: Center(
         child: Text("$email"),
       ),

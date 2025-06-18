@@ -1,3 +1,4 @@
+import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/views/login_signup/login.dart';
 import 'package:flutter/material.dart';
 
@@ -40,6 +41,28 @@ class _SignupState extends State<Signup> {
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
+
+    final authService=AuthService();
+    final _emailController=TextEditingController();
+    final _passwordController=TextEditingController();
+    final _confirmPasswordController=TextEditingController();
+    void signup() async{
+      final email=_emailController.text;
+      final password=_passwordController.text;
+      final _confimPassword=_confirmPasswordController.text;
+      if(password!=_confimPassword){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: Password do not match")));
+          return;
+      }
+      try{
+        await authService.signUpWithEmailPassword(email, password);
+      }
+      catch(e){
+        if(mounted){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+        }
+      }
+    }
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -63,12 +86,20 @@ class _SignupState extends State<Signup> {
                 ),
                 SizedBox(height: screen_height/50,),
                 TextFormField(
+                  controller: _emailController,
                   decoration: buildInputDecoration("Email"),
                 ),
                 SizedBox(height: screen_height/50,),
                 TextFormField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: buildInputDecoration("Password"),
+                ),
+                SizedBox(height: screen_height/50,),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  obscureText: true,
+                  decoration: buildInputDecoration("Confirm Password"),
                 ),
                 SizedBox(height: screen_height/50,),
                 DropdownButtonFormField(
