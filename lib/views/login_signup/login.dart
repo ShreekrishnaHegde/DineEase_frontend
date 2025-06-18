@@ -1,4 +1,5 @@
 import 'package:dine_ease/service/auth_service/auth_service.dart';
+import 'package:dine_ease/views/login_signup/profile_page.dart';
 import 'package:dine_ease/views/login_signup/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _LoginState extends State<Login> {
   InputDecoration buildInputDecoration(String labelText,IconData icon) {
     return InputDecoration(
       border: UnderlineInputBorder(),
-      labelText: 'Enter your username',
+      labelText: labelText,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.grey),
         borderRadius: BorderRadius.circular(16.0),
@@ -27,16 +28,27 @@ class _LoginState extends State<Login> {
       fillColor: Colors.grey.shade100,
     );
   }
-
+  final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+    foregroundColor: Colors.white,
+    backgroundColor: Colors.black,
+    minimumSize: Size(double.infinity,50),
+    // padding: EdgeInsets.symmetric(horizontal: 100),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(12)),
+    ),
+  );
+  bool _obscureText = true;
   final authService=AuthService();
   final _emailController=TextEditingController();
   final _passwordController=TextEditingController();
   void login() async{
     final email=_emailController.text;
-    final password=_emailController.text;
+    final password=_passwordController.text;
     try{
       await authService.signInWithEmailPassword(email, password);
-
+      if(mounted){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ProfilePage()),);
+      }
     }
     catch(e){
       if(mounted){
@@ -46,20 +58,8 @@ class _LoginState extends State<Login> {
   }
   @override
   Widget build(BuildContext context) {
-
     final screen_width=MediaQuery.of(context).size.width;
     final screen_height=MediaQuery.of(context).size.height;
-
-    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.black,
-      minimumSize: Size(double.infinity,50),
-      // padding: EdgeInsets.symmetric(horizontal: 100),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
-    );
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -86,13 +86,26 @@ class _LoginState extends State<Login> {
                 ),
                 SizedBox(height: 30,),
                 TextFormField(
+                  obscureText: _obscureText,
                   controller: _passwordController,
-                  decoration: buildInputDecoration("Enter the password", Icons.password),
+                  decoration: buildInputDecoration("Enter the password", Icons.password).copyWith(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: (){
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    )
+                  ),
+
                 ),
                 SizedBox(height: 30,),
                 ElevatedButton(
                   style: raisedButtonStyle,
-                  onPressed: () { },
+                  onPressed: login,
                   child: Text(
                     "Login",
                     style: TextStyle(
@@ -111,7 +124,7 @@ class _LoginState extends State<Login> {
                         overlayColor: WidgetStateProperty.all(Colors.transparent),
                       ),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup()));
                       },
                       child: Text(
                         "SignUp",
