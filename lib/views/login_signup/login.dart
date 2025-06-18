@@ -1,3 +1,4 @@
+import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/views/login_signup/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +27,26 @@ class _LoginState extends State<Login> {
       fillColor: Colors.grey.shade100,
     );
   }
+
+  final authService=AuthService();
+  final _emailController=TextEditingController();
+  final _passwordController=TextEditingController();
+  void login() async{
+    final email=_emailController.text;
+    final password=_emailController.text;
+    try{
+      await authService.signInWithEmailPassword(email, password);
+
+    }
+    catch(e){
+      if(mounted){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
+
     final screen_width=MediaQuery.of(context).size.width;
     final screen_height=MediaQuery.of(context).size.height;
 
@@ -62,10 +81,12 @@ class _LoginState extends State<Login> {
               children: [
                 SizedBox(height: screen_height/15,),
                 TextFormField(
+                  controller: _emailController,
                   decoration:  buildInputDecoration("Enter your email", Icons.email),
                 ),
                 SizedBox(height: 30,),
                 TextFormField(
+                  controller: _passwordController,
                   decoration: buildInputDecoration("Enter the password", Icons.password),
                 ),
                 SizedBox(height: 30,),
