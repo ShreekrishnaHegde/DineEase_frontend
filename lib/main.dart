@@ -1,3 +1,4 @@
+import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/views/landingPage/get_started.dart';
 import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ void main() async{
       url: dotenv.env['SUPABASE_URL']!,
       anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
+
   runApp(const MyApp());
 }
 
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DineEase',
-      home: LandingScreen(),
+      home: AuthGate(),
     );
   }
 }

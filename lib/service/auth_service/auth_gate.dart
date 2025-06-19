@@ -3,10 +3,9 @@
 //Unauth- login page
 //auth- profile page
 
+import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../views/login_signup/login.dart';
 import '../../views/login_signup/profile_page.dart';
 
 
@@ -31,10 +30,10 @@ class AuthGate extends StatelessWidget {
         //check if there is a valid session currently
         final session=snapshot.hasData?snapshot.data!.session:null;
         if(session!=null){
-          return ProfilePage();
+          return const ProfilePage();
         }
         else{
-          return Login();
+          return const LandingScreen();
         }
       },
     );
