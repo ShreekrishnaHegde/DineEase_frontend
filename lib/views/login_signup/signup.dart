@@ -1,6 +1,6 @@
 import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/views/login_signup/login.dart';
-import 'package:dine_ease/views/login_signup/profile_page.dart' show ProfilePage;
+import 'package:dine_ease/views/login_signup/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
@@ -10,6 +10,15 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final authService=AuthService();
+
+  final _emailController=TextEditingController();
+  final _passwordController=TextEditingController();
+  final _confirmPasswordController=TextEditingController();
+
+  String? selectedRole;
+  final List<String> roles = ['Hotel', 'Guest'];
+
   InputDecoration buildInputDecoration(String labelText,) {
     return InputDecoration(
       border: UnderlineInputBorder(),
@@ -27,6 +36,7 @@ class _SignupState extends State<Signup> {
       fillColor: Colors.grey.shade100,
     );
   }
+
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     foregroundColor: Colors.white,
     backgroundColor: Colors.black,
@@ -36,16 +46,13 @@ class _SignupState extends State<Signup> {
       borderRadius: BorderRadius.all(Radius.circular(12)),
     ),
   );
-  final authService=AuthService();
-  final _emailController=TextEditingController();
-  final _passwordController=TextEditingController();
-  final _confirmPasswordController=TextEditingController();
+
   void signup() async{
     final email=_emailController.text;
     final password=_passwordController.text;
-    final _confimPassword=_confirmPasswordController.text;
-    if(password!=_confimPassword){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: Password do not match")));
+    final confirmPassword=_confirmPasswordController.text;
+    if(password!=confirmPassword){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Error: Passwords do not match")));
       return;
     }
     try{
@@ -56,20 +63,20 @@ class _SignupState extends State<Signup> {
     }
     catch(e){
       if(mounted){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:  Text("Error: $e")));
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    String? selectedRole;
-    final screen_width=MediaQuery.of(context).size.width;
+
     final screen_height=MediaQuery.of(context).size.height;
-    final List<String> roles = ['Hotel', 'Guest'];
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(
+        title: const Text(
           "Sign Up",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -126,7 +133,7 @@ class _SignupState extends State<Signup> {
                 ElevatedButton(
                   style: raisedButtonStyle,
                   onPressed: signup,
-                  child: Text(
+                  child: const Text(
                     "Signup",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -137,7 +144,7 @@ class _SignupState extends State<Signup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account?"),
+                    const Text("Already have an account?"),
                     TextButton(
                       style: ButtonStyle(
                         splashFactory: NoSplash.splashFactory,
@@ -146,7 +153,7 @@ class _SignupState extends State<Signup> {
                       onPressed: (){
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
                       },
-                      child: Text(
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,

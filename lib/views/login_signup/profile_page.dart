@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body: Center(
-        child: Text("Hello World!"),
+        child: const Text("Hello World!"),
       ),
     );
   }

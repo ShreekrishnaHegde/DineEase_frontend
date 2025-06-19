@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "Login",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
                 ElevatedButton(
                   style: raisedButtonStyle,
                   onPressed: login,
-                  child: Text(
+                  child: const Text(
                     "Login",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -117,7 +117,7 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?"),
+                    const Text("Don't have an account?"),
                     TextButton(
                       style: ButtonStyle(
                         splashFactory: NoSplash.splashFactory,
@@ -126,7 +126,7 @@ class _LoginState extends State<Login> {
                       onPressed: (){
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup()));
                       },
-                      child: Text(
+                      child: const Text(
                         "SignUp",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
