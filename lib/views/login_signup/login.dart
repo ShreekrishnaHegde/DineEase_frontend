@@ -11,6 +11,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final authService=AuthService();
+  final _emailController=TextEditingController();
+  final _passwordController=TextEditingController();
+
+  bool _obscureText = true;
+
   InputDecoration buildInputDecoration(String labelText,IconData icon) {
     return InputDecoration(
       border: UnderlineInputBorder(),
@@ -37,10 +43,7 @@ class _LoginState extends State<Login> {
       borderRadius: BorderRadius.all(Radius.circular(12)),
     ),
   );
-  bool _obscureText = true;
-  final authService=AuthService();
-  final _emailController=TextEditingController();
-  final _passwordController=TextEditingController();
+
   void login() async{
     final email=_emailController.text;
     final password=_passwordController.text;

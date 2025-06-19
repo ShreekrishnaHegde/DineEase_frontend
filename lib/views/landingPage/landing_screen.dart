@@ -23,54 +23,49 @@ class LandingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-
-          ),
-          child: Column(
-            children: [
-              //Image
-              Image.asset(
-                "assets/landing_screen/LS02.jpg",
-                width: 0.8*screenWidth,
-              ),
-              Spacer(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32,vertical: 8),
-                child: ElevatedButton(
-                  style: raisedButtonStyle,
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-                  },
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20
-                    ),
+        child: Column(
+          children: [
+            //Image
+            Image.asset(
+              "assets/landing_screen/LS02.jpg",
+              width: 0.8*screenWidth,
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 8),
+              child: ElevatedButton(
+                style: raisedButtonStyle,
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                },
+                child: const Text(
+                  "Login",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
                   ),
                 ),
               ),
-              //SignUp Button
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32,vertical: 8),
-                child: ElevatedButton(
-                  style: raisedButtonStyle,
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
-                  },
-                  child: Text(
-                    "SignUp",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20
-                    ),
+            ),
+            //SignUp Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 8),
+              child: ElevatedButton(
+                style: raisedButtonStyle,
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
+                },
+                child: const Text(
+                  "SignUp",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
                   ),
                 ),
               ),
-              SizedBox(height: 45)
-            ],
-          ),
+            ),
+            const SizedBox(height: 45)
+          ],
         ),
       )
 
