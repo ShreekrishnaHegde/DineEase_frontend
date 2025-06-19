@@ -47,6 +47,39 @@ class _SignupState extends State<Signup> {
     ),
   );
 
+  Widget buildTextField({
+    required String label,
+    TextEditingController? controller,
+    bool obscure=false,
+}){
+    return TextFormField(
+      controller: controller,
+      obscureText: obscure,
+      decoration: buildInputDecoration(label),
+    );
+  }
+
+  Widget buildRoleDropdown(){
+    return DropdownButtonFormField<String>(
+        decoration: buildInputDecoration("Select Role"),
+        value: selectedRole,
+        isExpanded: true,
+        items: roles.map(
+                (role){
+              return DropdownMenuItem(
+                value: role,
+                child: Text(role),
+              );
+            }
+        ).toList(),
+        onChanged: (value){
+          setState(() {
+            selectedRole=value;
+          });
+        }
+    );
+  }
+
   void signup() async{
     final email=_emailController.text;
     final password=_passwordController.text;
@@ -88,47 +121,18 @@ class _SignupState extends State<Signup> {
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(20),
-            child: Column(
+            child: ListView(
               children: [
                 SizedBox(height: screen_height/25,),
-                TextFormField(
-                  decoration: buildInputDecoration("Full Name"),
-                ),
+                buildTextField(label: "Full Name",),
                 SizedBox(height: screen_height/50,),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: buildInputDecoration("Email"),
-                ),
+                buildTextField(label: "Email", controller: _emailController),
                 SizedBox(height: screen_height/50,),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: buildInputDecoration("Password"),
-                ),
+                buildTextField(label: "Password", controller: _passwordController, obscure: true),
                 SizedBox(height: screen_height/50,),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  obscureText: true,
-                  decoration: buildInputDecoration("Confirm Password"),
-                ),
+                buildTextField(label: "Confirm Password", controller: _confirmPasswordController, obscure: true),
                 SizedBox(height: screen_height/50,),
-                DropdownButtonFormField(
-                    decoration: buildInputDecoration("Select Role"),
-                    value: selectedRole,
-                    isExpanded: true,
-                    items: roles.map(
-                            (role){
-                          return DropdownMenuItem(
-                            value: role,
-                            child: Text(role),
-                          );
-                        }
-                    ).toList(),
-                    onChanged: (value){
-                      setState(() {
-                        selectedRole=value;
-                      });
-                    }
-                ),
+                buildRoleDropdown(),
                 SizedBox(height: screen_height/50,),
                 ElevatedButton(
                   style: raisedButtonStyle,
