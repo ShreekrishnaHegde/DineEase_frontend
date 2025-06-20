@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'hotel_menu.dart';
+
 class HotelDashboard extends StatefulWidget {
   const HotelDashboard({super.key});
 
@@ -58,6 +60,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
                 });
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.restaurant_menu),
+              title: const Text("Menu"),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HotelMenu()));
+              },
+            )
           ],
         ),
       ),
