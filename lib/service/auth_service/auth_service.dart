@@ -1,4 +1,6 @@
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService{
@@ -22,10 +24,14 @@ class AuthService{
         email: email,
         password: password,
         data: {
-          "full-name":fullname,
+          "full_name":fullname,
           "role":role,
         },
     );
+    final user=response.user;
+    if(user!=null){
+      await sendUserProfile(id: user.id, email: user.email!, fullname: fullname, role: role);
+    }
     return response;
   }
   //SignOut
@@ -37,5 +43,31 @@ class AuthService{
     final session=_supabaseClient.auth.currentSession;
     final user=session?.user;
     return user?.email;
+  }
+  //Sending User profile to the MongoDB via Spring boot
+  Future<void> sendUserProfile({
+    required String id,
+    required String email,
+    required String fullname,
+    required String role,
+  }) async{
+    final accessToken=_supabaseClient.auth.currentSession?.accessToken;
+    final uri=Uri.parse('');
+    final response=await http.post(
+      uri,
+      headers: {
+        "Content-type":"application/json",
+        "Authorization":"Bearer $accessToken",
+      },
+      body: jsonEncode({
+        "id":id,
+        "email":email,
+        "fullname":fullname,
+        "role":role,
+      }),
+    );
+    if(response.statusCode!=200){
+      print("Failed to send user profile to the backend");
+    }
   }
 }
