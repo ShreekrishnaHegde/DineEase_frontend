@@ -1,4 +1,6 @@
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
+import 'package:dine_ease/service/hotel_service/health_check.dart';
+import 'package:dine_ease/views/health_view.dart';
 import 'package:dine_ease/views/hotel_view/hotel_dashboard.dart';
 import 'package:dine_ease/views/landingPage/get_started.dart';
 import 'package:dine_ease/views/landingPage/landing_screen.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DineEase',
       // home: AuthGate(),
-      home: HotelDashboard(),
+      home: HealthView(),
     );
   }
 }
