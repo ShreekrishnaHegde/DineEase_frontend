@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -51,8 +52,13 @@ class AuthService{
     required String fullname,
     required String role,
   }) async{
+    final String baseUrl=dotenv.env['API_BASE_URL']!;
     final accessToken=_supabaseClient.auth.currentSession?.accessToken;
-    final uri=Uri.parse('http://192.168.137.1:8080/api/customer');
+    final uri = Uri.parse(
+        role == 'Customer'
+            ? '$baseUrl/api/customer'
+            : '$baseUrl/api/hotel-owner'
+    );
     final response=await http.post(
       uri,
       headers: {
@@ -60,7 +66,7 @@ class AuthService{
         "Authorization":"Bearer $accessToken",
       },
       body: jsonEncode({
-        "id":id,
+        "supaId":id,
         "email":email,
         "fullname":fullname,
         "role":role,
