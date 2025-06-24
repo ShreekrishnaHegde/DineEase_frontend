@@ -15,7 +15,7 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      //Listen to the auth state chanhe
+      //Listen to the auth state change
       stream: Supabase.instance.client.auth.onAuthStateChange,
       //Build appropriate page based on auth change
       builder: (context,snapshot){

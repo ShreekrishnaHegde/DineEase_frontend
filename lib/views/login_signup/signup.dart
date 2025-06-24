@@ -15,9 +15,10 @@ class _SignupState extends State<Signup> {
   final _emailController=TextEditingController();
   final _passwordController=TextEditingController();
   final _confirmPasswordController=TextEditingController();
-
+  final _fullnameController=TextEditingController();
+  final _roleController=TextEditingController();
   String? selectedRole;
-  final List<String> roles = ['Hotel', 'Guest'];
+  final List<String> roles = ['Hotel', 'Customer'];
 
   InputDecoration buildInputDecoration(String labelText,) {
     return InputDecoration(
@@ -75,6 +76,7 @@ class _SignupState extends State<Signup> {
         onChanged: (value){
           setState(() {
             selectedRole=value;
+            _roleController.text=value!;
           });
         }
     );
@@ -84,12 +86,14 @@ class _SignupState extends State<Signup> {
     final email=_emailController.text;
     final password=_passwordController.text;
     final confirmPassword=_confirmPasswordController.text;
+    final fullname=_fullnameController.text;
+    final role=_roleController.text;
     if(password!=confirmPassword){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Error: Passwords do not match")));
       return;
     }
     try{
-      await authService.signUpWithEmailPassword(email, password);
+      await authService.signUpWithEmailPassword(email: email,password: password,fullname: fullname,role: role);
       if(mounted){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ProfilePage()),);
       }
@@ -124,7 +128,7 @@ class _SignupState extends State<Signup> {
             child: ListView(
               children: [
                 SizedBox(height: screen_height/25,),
-                buildTextField(label: "Full Name",),
+                buildTextField(label: "Full Name",controller: _fullnameController),
                 SizedBox(height: screen_height/50,),
                 buildTextField(label: "Email", controller: _emailController),
                 SizedBox(height: screen_height/50,),
