@@ -52,7 +52,7 @@ class AuthService{
     required String role,
   }) async{
     final accessToken=_supabaseClient.auth.currentSession?.accessToken;
-    final uri=Uri.parse('');
+    final uri=Uri.parse('http://192.168.137.1:8080/api/customer');
     final response=await http.post(
       uri,
       headers: {
@@ -66,8 +66,9 @@ class AuthService{
         "role":role,
       }),
     );
+
     if(response.statusCode!=200){
-      print("Failed to send user profile to the backend");
+      print("Backend error: ${response.body}");
     }
   }
 }
