@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
 import 'package:flutter/material.dart';
 
 import 'hotel_menu.dart';
@@ -53,10 +54,10 @@ class _HotelDashboardState extends State<HotelDashboard> {
             ),
             ListTile(
               leading: const Icon(Icons.account_circle),
-              title: const Text("Account"),
+              title: const Text("Profile"),
               onTap: (){
                 setState(() {
-
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelProfile()));
                 });
               },
             ),
