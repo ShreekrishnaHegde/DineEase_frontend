@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DineEase',
-      home: HotelDashboard(),
+      home: GetStarted(),
       // home: HotelDashboard(),
     );
   }

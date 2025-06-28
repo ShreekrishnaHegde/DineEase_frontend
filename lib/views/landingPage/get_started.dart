@@ -21,33 +21,48 @@ class GetStarted extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Image.asset(
-              "assets/landing_screen/LS02.jpg",
-              width: 0.8*screenWidth,
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 8),
-              child: ElevatedButton(
-                style: raisedButtonStyle,
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LandingScreen()));
-                },
-                child: const Text(
-                  "Get Started",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black45,
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    )
+                  ]
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    "assets/landing_screen/LS03.jpg",
+                    width: 0.75*screenWidth,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-            ),
-            Spacer(),
-          ],
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 8),
+                child: ElevatedButton(
+                  style: raisedButtonStyle,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LandingScreen()));
+                  },
+                  child: const Text(
+                    "Get Started",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(),
+            ],
+          ),
         ),
-      ),
     );
   }
 }

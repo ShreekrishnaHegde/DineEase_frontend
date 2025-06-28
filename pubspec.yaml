@@ -55,10 +55,12 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_launcher_icons:
-  android: "launcher_icon"
-  image_path: "assets/icons/logo.png"
+  android: true
   min_sdk_android: 21 # android min sdk min:16, default 21
-
+  image_path_android: "assets/icons/logo1.png"
+  adaptive_icon_foreground_inset: 25
+  adaptive_icon_foreground: "assets/icons/logo1.png"
+  adaptive_icon_background: "#ffffff"
 
 # The following section is specific to Flutter packages.
 flutter:
