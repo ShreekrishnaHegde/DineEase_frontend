@@ -9,9 +9,7 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth=MediaQuery.of(context).size.width;
     final screenHeight=MediaQuery.of(context).size.height;
-
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-
       foregroundColor: Colors.white,
       backgroundColor: Colors.black,
       minimumSize: Size(double.infinity,50),
