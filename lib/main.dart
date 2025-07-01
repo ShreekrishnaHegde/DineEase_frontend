@@ -1,8 +1,3 @@
-import 'package:dine_ease/service/auth_service/auth_gate.dart';
-import 'package:dine_ease/service/hotel_service/health_check.dart';
-import 'package:dine_ease/views/health_view.dart';
-import 'package:dine_ease/views/hotel_view/hotel_dashboard.dart';
-import 'package:dine_ease/views/landingPage/get_started.dart';
 import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,7 +10,6 @@ void main() async{
       url: dotenv.env['SUPABASE_URL']!,
       anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
-
   runApp(const MyApp());
 }
 
@@ -27,8 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DineEase',
-      home: GetStarted(),
-      // home: HotelDashboard(),
+      // home: LandingScreen(),
+      home: HotelDashboard(),
     );
   }
 }
