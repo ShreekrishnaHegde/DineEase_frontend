@@ -23,13 +23,13 @@ class MenuService{
   Future<void> addCategory(String name) async{
     await http.post(
       Uri.parse("$baseUrl/category"),
-      body: jsonEncode({"name":name});
+      body: jsonEncode({"name":name}),
     );
   }
   Future<void> deleteCategory(String categoryId) async{
     await http.delete(Uri.parse("$baseUrl/category/$categoryId"));
   }
-  void addItem(String categoryId,List<Item> items) async{
+  Future<void> addItem(String categoryId,List<Item> items) async{
     final itemList=items.map((e) => e.toJson()).toList();
     await http.post(
       Uri.parse("$baseUrl/item/$categoryId"),

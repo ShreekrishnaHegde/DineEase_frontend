@@ -3,7 +3,8 @@ import 'package:dine_ease/service/hotel_service/menu_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/Item.dart';
-import '../Widgets/category_card.dart';
+import '../../models/Category.dart';
+
 
 class HotelMenu extends StatefulWidget {
   const HotelMenu({super.key});
@@ -14,12 +15,22 @@ class HotelMenu extends StatefulWidget {
 
 class _HotelMenuState extends State<HotelMenu> {
   final MenuService _service=MenuService();
-
   final _categoryController=TextEditingController();
-  final _itemNameController=TextEditingController();
-  final _itemPriceController=TextEditingController();
 
-  void _addItemDialog(int categoryIndex) {
+  late Future<List<Category>> _categoriesFuture;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _categoriesFuture=_service.getCategories();
+  }
+  void _refreshCategories(){
+    setState(() {
+      _categoriesFuture=_service.getCategories();
+    });
+  }
+
+  void _addItemDialog(Category category) {
     List<TextEditingController> nameControllers = [TextEditingController()];
     List<TextEditingController> priceControllers = [TextEditingController()];
 
@@ -82,16 +93,21 @@ class _HotelMenuState extends State<HotelMenu> {
               child: Text("Add More"),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                List<Item> items = [];
                 for (int i = 0; i < nameControllers.length; i++) {
                   final name = nameControllers[i].text.trim();
                   final price = double.tryParse(priceControllers[i].text) ?? 0.0;
                   if (name.isNotEmpty) {
-                    _service.addItem(categoryIndex, Item(name: name, price: price));
+                    items.add(Item(name: name, price: price));;
                   }
                 }
-                setState(() {});
-                Navigator.pop(context);
+                if (items.isNotEmpty) {
+                  await _service.addItem(category.id,items);
+                  _refreshCategories();
+                  Navigator.pop(context);
+                }
+
               },
               child: Text("Save All"),
             )
@@ -127,7 +143,7 @@ class _HotelMenuState extends State<HotelMenu> {
   }
   @override
   Widget build(BuildContext context) {
-    final categories=MenuService().getCategories();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Menu Manager"),
@@ -138,57 +154,67 @@ class _HotelMenuState extends State<HotelMenu> {
           )
         ],
       ),
-      body: ListView.builder(
-        itemCount: categories.length,
-        itemBuilder: (_,catIndex){
-          final category=categories[catIndex];
-          return Card(
-            margin: EdgeInsets.all(10),
-            child: ExpansionTile(
-              title: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      category.name,
-                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete,color: Colors.red,),
-                    onPressed: (){
-                      _service.deleteCategory(catIndex);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: (){
-                      _addItemDialog(catIndex);
-                    },
-                  )
-                ],
-              ),
-              children: category.items.asMap().entries.map((entry){
-                final itemIndex=entry.key;
-                final item=entry.value;
-                return ListTile(
-                  title: Text(item.name),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
+      body: FutureBuilder(
+        future: _categoriesFuture,
+        builder: (context,snapshot){
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator(),);
+          }
+          if(snapshot.hasError){
+            return Center(child: Text("Error Loading Menu"),);
+          }
+          final categories=snapshot.data!;
+          return ListView.builder(
+            itemCount: categories.length,
+            itemBuilder: (_,categoryIndex){
+              final category=categories[categoryIndex];
+              return Card(
+                margin: EdgeInsets.all(10),
+                child: ExpansionTile(
+                  title: Row(
                     children: [
-                      Text("₹${item.price.toStringAsFixed(0)}"),
+                      Expanded(
+                        child: Text(
+                          category.name,
+                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: (){
-                          _service.deleteItem(catIndex, itemIndex);
-                          setState(() {
-                          });
+                        icon: Icon(Icons.delete,color: Colors.red,),
+                        onPressed: () async{
+                          await _service.deleteCategory(category.id);
+                          _refreshCategories();
                         },
                       ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: (){
+                          _addItemDialog(category);
+                        },
+                      )
                     ],
                   ),
-                );
-              }).toList(),
-            ),
+                  children: category.items.map((item){
+                    return ListTile(
+                      title: Text(item.name),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("₹${item.price.toStringAsFixed(0)}"),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: ()async{
+                               await _service.deleteItem(category.id, item.id);
+                               _refreshCategories();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              );
+            },
           );
         },
       ),
