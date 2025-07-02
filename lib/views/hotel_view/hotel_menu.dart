@@ -34,7 +34,6 @@ class _HotelMenuState extends State<HotelMenu> {
       priceControllers.removeAt(index);
       setState(() {});
     }
-
     showDialog(
       context: context,
       builder: (_) => StatefulBuilder(
