@@ -14,23 +14,30 @@ class MenuService{
     final response=await http.get(Uri.parse("$baseUrl/categories"));
     if(response.statusCode==200){
       List data=jsonDecode(response.body);
-      return data.map((e) => Category.from)
+      return data.map((e) => Category.fromJson(e)).toList();
     }
     else{
       throw Exception("Failed to load categories");
     }
   }
-  void addCategory(String name){
-    _categories.add(Category(name: name));
+  Future<void> addCategory(String name) async{
+    await http.post(
+      Uri.parse("$baseUrl/category"),
+      body: jsonEncode({"name":name});
+    );
   }
-  void deleteCategory(int index){
-    _categories.removeAt(index);
+  Future<void> deleteCategory(String categoryId) async{
+    await http.delete(Uri.parse("$baseUrl/category/$categoryId"));
   }
-  void addItem(int categoryIndex,Item item){
-    _categories[categoryIndex].items.add(item);
+  void addItem(String categoryId,List<Item> items) async{
+    final itemList=items.map((e) => e.toJson()).toList();
+    await http.post(
+      Uri.parse("$baseUrl/item/$categoryId"),
+      body: jsonEncode(itemList),
+    );
   }
-  void deleteItem(int categoryIndex,int itemIndex){
-    _categories[categoryIndex].items.removeAt(itemIndex);
+  Future<void> deleteItem(String categoryId,String itemId) async{
+    await http.delete(Uri.parse("$baseUrl/item/$categoryId/$itemId"));
   }
 
 }
