@@ -34,9 +34,9 @@ class MenuService{
     }
 
   }
+  //Method to delete a category
   Future<void> deleteCategory(String categoryId) async{
-    // username = authService.getCurrentUserEmail();
-    await http.delete(Uri.parse("$baseUrl/category/$categoryId"));
+    final response=await http.delete(Uri.parse("$baseUrl/api/hotel/$username/menu/category/$categoryId"));
   }
   Future<void> addItem(String categoryId,List<Item> items) async{
     // username = authService.getCurrentUserEmail();
