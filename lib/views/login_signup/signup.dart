@@ -1,3 +1,4 @@
+import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/views/hotel_view/hotel_menu.dart';
 import 'package:dine_ease/views/login_signup/login.dart';
@@ -96,7 +97,7 @@ class _SignupState extends State<Signup> {
     try{
       await authService.signUpWithEmailPassword(email: email,password: password,fullname: fullname,role: role);
       if(mounted){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HotelMenu()),);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AuthGate()),);
       }
     }
     catch(e){
