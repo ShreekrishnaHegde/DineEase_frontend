@@ -7,8 +7,8 @@ class Category{
   Category({this.id="",required this.name, this.items=const []});
 
   factory Category.fromJson(Map<String,dynamic> json) => Category(
-    id:json['_id'] ?? '',
-    name: json['name'],
+    id:json['categoryId'] ?? '',
+    name: json['categoryName'],
     items: (json['items'] as List).map((e) => Item.fromJson(e)).toList(),
   );
   Map<String,dynamic> toJson()=> {

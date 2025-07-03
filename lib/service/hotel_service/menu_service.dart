@@ -2,17 +2,20 @@
 import 'dart:convert';
 import 'package:dine_ease/models/Category.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../../models/Item.dart';
 
 class MenuService{
-  final String baseUrl = "API_BASE_URL/api/hotel";
+  final String baseUrl = dotenv.env['API_BASE_URL']!;
   final AuthService authService = AuthService();
   late final String? username;
-
   Future<List<Category>> getCategories() async{
     username = authService.getCurrentUserEmail();
-    final response=await http.get(Uri.parse("$baseUrl/$username/menu/items"));
+    print("Current username/email: $username");
+    final response=await http.get(Uri.parse("$baseUrl/api/hotel/$username/menu/items"));
+    print("Status: ${response.statusCode}");
+    print("Body: ${response.body}");
     if(response.statusCode==200){
       List data=jsonDecode(response.body);
       return data.map((e) => Category.fromJson(e)).toList();

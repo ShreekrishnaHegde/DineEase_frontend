@@ -5,9 +5,9 @@ class Item{
   Item({this.id="",required this.name,required this.price});
 
   factory Item.fromJson(Map<String,dynamic> json) => Item(
-    id: json['_id'] ?? '',
-    name: json['name'],
-    price: (json['price'] as num).toDouble(),
+    id: json['itemId'] ?? '',
+    name: json['itemName'],
+    price: (json['itemPrice'] as num).toDouble(),
   );
   Map<String,dynamic> toJson()=>{
     "name":name,
