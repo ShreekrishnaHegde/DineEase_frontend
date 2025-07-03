@@ -1,4 +1,5 @@
 import 'package:dine_ease/service/auth_service/auth_service.dart';
+import 'package:dine_ease/views/hotel_view/hotel_menu.dart';
 import 'package:dine_ease/views/login_signup/profile_page.dart';
 import 'package:dine_ease/views/login_signup/signup.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _LoginState extends State<Login> {
     try{
       await authService.signInWithEmailPassword(email, password);
       if(mounted){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ProfilePage()),);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HotelMenu()),);
       }
     }
     catch(e){

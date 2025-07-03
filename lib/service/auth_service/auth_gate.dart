@@ -4,6 +4,8 @@
 //auth- profile page
 
 import 'package:dine_ease/views/hotel_view/hotel_dashboard.dart';
+import 'package:dine_ease/views/hotel_view/hotel_menu.dart';
+import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
 import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -31,7 +33,8 @@ class AuthGate extends StatelessWidget {
         //check if there is a valid session currently
         final session=snapshot.hasData?snapshot.data!.session:null;
         if(session!=null){
-          return session.user.role=="Customer" ? ProfilePage(): HotelDashboard();
+          // return session.user.role=="Customer" ? HotelMenu(): HotelMenu();
+          return HotelProfile();
         }
         else{
           return const LandingScreen();
