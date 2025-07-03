@@ -98,11 +98,11 @@ class _HotelMenuState extends State<HotelMenu> {
                   final name = nameControllers[i].text.trim();
                   final price = double.tryParse(priceControllers[i].text) ?? 0.0;
                   if (name.isNotEmpty) {
-                    items.add(Item(name: name, price: price));;
+                    items.add(Item(name: name, price: price));
                   }
                 }
                 if (items.isNotEmpty) {
-                  await _service.addItem(category.id,items);
+                  await _service.addItems(category.id,items);
                   _refreshCategories();
                   Navigator.pop(context);
                 }
