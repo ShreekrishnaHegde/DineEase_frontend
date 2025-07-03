@@ -10,7 +10,7 @@ class Item{
     price: (json['itemPrice'] as num).toDouble(),
   );
   Map<String,dynamic> toJson()=>{
-    "name":name,
-    "price":price,
+    "itemName":name,
+    "itemPrice":price,
   };
 }

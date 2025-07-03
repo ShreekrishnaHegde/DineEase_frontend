@@ -12,7 +12,7 @@ class Category{
     items: (json['items'] as List).map((e) => Item.fromJson(e)).toList(),
   );
   Map<String,dynamic> toJson()=> {
-        "name": name,
+        "categoryName": name,
         "items": items.map((e) => e.toJson()).toList(),
   };
 }

@@ -29,7 +29,6 @@ class _HotelMenuState extends State<HotelMenu> {
       _categoriesFuture=_service.getCategories();
     });
   }
-
   void _addItemDialog(Category category) {
     List<TextEditingController> nameControllers = [TextEditingController()];
     List<TextEditingController> priceControllers = [TextEditingController()];
@@ -127,13 +126,11 @@ class _HotelMenuState extends State<HotelMenu> {
         ),
         actions: [
           TextButton(
-            onPressed: (){
-              _service.addCategory(_categoryController.text);
+            onPressed: () async{
+               await _service.addCategory(_categoryController.text);
               _categoryController.clear();
-              setState(() {
-
-              });
               Navigator.pop(context);
+               _refreshCategories();
             },
             child: Text("Add"),
           ),
