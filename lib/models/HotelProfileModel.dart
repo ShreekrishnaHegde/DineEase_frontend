@@ -3,13 +3,13 @@ class HotelProfileModel{
   String? hotelName;
   String fullname;
   String? address;
-
+  String? hotelId;
   HotelProfileModel({
     required this.email,
     required this.hotelName,
     required this.fullname,
     required this.address,
-
+    this.hotelId,
   });
   factory HotelProfileModel.fromJson(Map<String, dynamic> json) {
     return HotelProfileModel(
@@ -18,6 +18,7 @@ class HotelProfileModel{
       hotelName: json['hotelName']??'',
       fullname: json['fullname'],
       address: json['address']??'',
+      hotelId: json['hotelId']??'',
     );
   }
   Map<String, dynamic> toJson() {
