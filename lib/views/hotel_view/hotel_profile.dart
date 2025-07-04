@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../models/HotelProfileModel.dart';
+import '../../service/hotel_service/HotelProfileService.dart';
+
 class HotelProfile extends StatefulWidget {
   const HotelProfile({super.key});
 
@@ -8,62 +11,82 @@ class HotelProfile extends StatefulWidget {
 }
 
 class _HotelProfileState extends State<HotelProfile> {
-  bool isEditing=false;
-  final _nameController=TextEditingController();
-  final _emailController=TextEditingController();
-  Widget buildField(String label,TextEditingController controller,bool editable){
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: editable ?
-              TextFormField(
-                controller: controller,
-                decoration: InputDecoration(
-                  labelText: label,
-                  border: OutlineInputBorder(),
-                ),
-              )
-          :
-            ListTile(
-              title: Text(label),
-              subtitle: Text(controller.text),
-              leading: Icon(Icons.person),
-            )
+  final HotelProfileService _service = HotelProfileService();
+
+  final _hotelNameController = TextEditingController();
+  final _fullnameController = TextEditingController();
+  final _addressController = TextEditingController();
+  String email = '';
+  bool isLoading = true;
+  Future<void> loadProfile() async {
+    final profile = await _service.fetchProfile();
+    setState(() {
+      _hotelNameController.text = profile.hotelName??'';
+      _fullnameController.text = profile.fullname;
+      _addressController.text = profile.address??'';
+      email = profile.email;
+      isLoading = false;
+    });
+  }
+  Future<void> saveProfile() async {
+    final updated = HotelProfileModel(
+      email: email,
+      hotelName: _hotelNameController.text,
+      fullname: _fullnameController.text,
+      address: _addressController.text,
     );
+    await _service.updateProfile(updated);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile Updated')));
+  }
+  @override
+  void initState(){
+    super.initState();
+    loadProfile();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Profile"),
+        title: Text("My Profile",style: TextStyle(fontWeight: FontWeight.bold),),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(isEditing ? Icons.save : Icons.edit),
-            onPressed: (){
-              setState(() {
-                isEditing=!isEditing;
-              });
-              if ( !isEditing){
-
-              }
-            },
-          )
-        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      body: isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : Padding(
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              Center(
-                child: CircleAvatar(
-                  radius: 60,
-                ),
+              TextFormField(
+                readOnly: true,
+                initialValue: email,
+                decoration: const InputDecoration(labelText: "Email"),
               ),
-              buildField("Name", _nameController, isEditing),
-              buildField("Email", _emailController, isEditing),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _hotelNameController,
+                decoration: const InputDecoration(labelText: "Hotel Name"),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _fullnameController,
+                decoration: const InputDecoration(labelText: "Owner Name"),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _addressController,
+                decoration: const InputDecoration(labelText: "Address"),
+              ),
+              const Spacer(),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: saveProfile,
+                  child: const Text("Save"),
+                ),
+              )
             ],
           ),
-      ),
+      )
     );
   }
 }

@@ -1,6 +1,9 @@
 import 'dart:ui';
 
+import 'package:dine_ease/service/auth_service/auth_gate.dart';
+import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
+import 'package:dine_ease/views/hotel_view/hotel_stats.dart';
 import 'package:flutter/material.dart';
 
 import 'hotel_menu.dart';
@@ -13,18 +16,11 @@ class HotelDashboard extends StatefulWidget {
 }
 
 class _HotelDashboardState extends State<HotelDashboard> {
-  final List<String> orders = [
-    "Order #1001 - Pizza",
-    "Order #1002 - Burger",
-    "Order #1003 - Pasta",
-    "Order #1004 - Salad",
-    "Order #1005 - Sushi",
-  ];
-  bool showAll=false;
+  final authService=AuthService();
+
   @override
   Widget build(BuildContext context) {
     //How many orders to show?
-    final List<String> displayOrders=showAll ? orders : orders.take(3).toList();
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -45,7 +41,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
             const DrawerHeader(
               decoration: BoxDecoration(color: Colors.blue),
               child: Text(
-                "Drawer Header",
+                "",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24
@@ -62,43 +58,51 @@ class _HotelDashboardState extends State<HotelDashboard> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.restaurant_menu),
-              title: const Text("Menu"),
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HotelMenu()));
+                authService.signOut();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AuthGate()));
               },
-            )
+            ),
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: displayOrders.length,
-              itemBuilder: (context,index){
-                return GestureDetector(
-                  onTap: (){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Tapped on ${displayOrders[index]}"),
-                    ));
+      body: Center(
+        child: Text("You will see your orders here"),
+      ),
+      bottomNavigationBar:  BottomAppBar(
+        color: Colors.blue,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelMenu()));
                   },
-                  child: Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        displayOrders[index],
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
+                  child: const Text(
+                    "Menu",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
-                );
-              },
-            ),
-          )
-        ],
+                ),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
+                  },
+                  child: const Text(
+                    "Statistics",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
       ),
     );
   }

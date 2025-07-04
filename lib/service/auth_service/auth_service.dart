@@ -57,7 +57,7 @@ class AuthService{
     final uri = Uri.parse(
         role == 'Customer'
             ? '$baseUrl/api/customer'
-            : '$baseUrl/api/hotel-owner'
+            : '$baseUrl/api/hotel'
     );
     final response=await http.post(
       uri,

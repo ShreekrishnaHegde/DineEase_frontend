@@ -1,3 +1,4 @@
+import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/views/hotel_view/hotel_menu.dart';
 import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DineEase',
-      home: HotelMenu(),
+      home: AuthGate(),
       // home: HotelDashboard(),
     );
   }

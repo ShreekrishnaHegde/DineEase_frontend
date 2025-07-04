@@ -3,11 +3,13 @@
 //Unauth- login page
 //auth- profile page
 
+
+import 'package:dine_ease/views/customer_view/customer_dashboard.dart';
 import 'package:dine_ease/views/hotel_view/hotel_dashboard.dart';
 import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../views/login_signup/profile_page.dart';
+
 
 
 class AuthGate extends StatelessWidget {
@@ -15,11 +17,13 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    
+    return StreamBuilder<AuthState>(
       //Listen to the auth state change
       stream: Supabase.instance.client.auth.onAuthStateChange,
       //Build appropriate page based on auth change
       builder: (context,snapshot){
+        final session = Supabase.instance.client.auth.currentSession;
         //Loading
         if(snapshot.connectionState==ConnectionState.waiting){
           return const Scaffold(
@@ -28,10 +32,11 @@ class AuthGate extends StatelessWidget {
             ),
           );
         }
+
         //check if there is a valid session currently
-        final session=snapshot.hasData?snapshot.data!.session:null;
+
         if(session!=null){
-          return session.user.role=="Customer" ? ProfilePage(): HotelDashboard();
+          return session.user.userMetadata?['role']=="Customer" ? CustomerDashboard(): HotelDashboard();
         }
         else{
           return const LandingScreen();
