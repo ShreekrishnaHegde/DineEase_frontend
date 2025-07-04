@@ -105,7 +105,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => CustomerViewMenu(
-                                    hotelId: hotel.hotelId!,
+                                      username: hotel.email,
                                   ),
                                 ),
                               );
