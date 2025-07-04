@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
+import 'package:dine_ease/views/hotel_view/hotel_stats.dart';
 import 'package:flutter/material.dart';
 
 import 'hotel_menu.dart';
@@ -90,7 +91,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
               Expanded(
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelMenu()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
                   },
                   child: const Text(
                     "Statistics",
