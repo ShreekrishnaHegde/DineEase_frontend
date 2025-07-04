@@ -1,8 +1,6 @@
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
-import 'package:dine_ease/views/hotel_view/hotel_menu.dart';
 import 'package:dine_ease/views/login_signup/login.dart';
-import 'package:dine_ease/views/login_signup/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {

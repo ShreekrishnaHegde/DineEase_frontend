@@ -143,7 +143,9 @@ class _HotelMenuState extends State<HotelMenu> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Menu Manager"),
+        centerTitle: true,
+        title: Text("Menu Manager",style: TextStyle(fontWeight: FontWeight.bold),),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: _addCategoryDialog,
@@ -167,48 +169,51 @@ class _HotelMenuState extends State<HotelMenu> {
               final category=categories[categoryIndex];
               return Card(
                 margin: EdgeInsets.all(10),
-                child: ExpansionTile(
-                  title: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          category.name,
-                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete,color: Colors.red,),
-                        onPressed: () async{
-                          await _service.deleteCategory(category.id);
-                          _refreshCategories();
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: (){
-                          _addItemDialog(category);
-                        },
-                      )
-                    ],
-                  ),
-                  children: category.items.map((item){
-                    return ListTile(
-                      title: Text(item.name),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text("₹${item.price.toStringAsFixed(0)}"),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: ()async{
-                               await _service.deleteItem(category.id, item.id);
-                               _refreshCategories();
-                            },
+                child: Theme(
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    title: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            category.name,
+                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                           ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete,color: Colors.red,),
+                          onPressed: () async{
+                            await _service.deleteCategory(category.id);
+                            _refreshCategories();
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: (){
+                            _addItemDialog(category);
+                          },
+                        )
+                      ],
+                    ),
+                    children: category.items.map((item){
+                      return ListTile(
+                        title: Text(item.name),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text("₹${item.price.toStringAsFixed(0)}"),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: ()async{
+                                 await _service.deleteItem(category.id, item.id);
+                                 _refreshCategories();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               );
             },

@@ -1,8 +1,7 @@
-  import 'package:dine_ease/service/auth_service/auth_gate.dart';
+import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
-
-  import 'package:dine_ease/views/login_signup/signup.dart';
-  import 'package:flutter/material.dart';
+import 'package:dine_ease/views/login_signup/signup.dart';
+import 'package:flutter/material.dart';
 
   class Login extends StatefulWidget {
     const Login({super.key});
