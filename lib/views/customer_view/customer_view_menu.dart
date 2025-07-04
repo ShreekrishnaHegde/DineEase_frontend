@@ -2,6 +2,7 @@ import 'package:dine_ease/models/Category.dart';
 import 'package:dine_ease/models/Item.dart';
 import 'package:dine_ease/service/customer_service/customer_menu_service.dart';
 import 'package:dine_ease/service/hotel_service/menu_service.dart';
+import 'package:dine_ease/views/customer_view/customer_cart_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomerViewMenu extends StatefulWidget {
@@ -99,7 +100,9 @@ class _CustomerViewMenuState extends State<CustomerViewMenu> {
           style: ElevatedButton.styleFrom(
             minimumSize: const Size.fromHeight(50),
           ),
-          onPressed: (){},
+          onPressed: _cart.isNotEmpty?(){
+            Navigator.push(context, MaterialPageRoute(builder: (_) => CustomerCartScreen(cart: _cart)));
+          }:null,
           child: const Text("View Order"),
         ),
       ),
