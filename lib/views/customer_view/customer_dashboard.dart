@@ -2,8 +2,13 @@ import 'dart:async';
 
 import 'package:dine_ease/models/HotelProfileModel.dart';
 import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
+import 'package:dine_ease/views/customer_view/customer_profile.dart';
 import 'package:dine_ease/views/customer_view/customer_view_menu.dart';
 import 'package:flutter/material.dart';
+
+import '../../service/auth_service/auth_gate.dart';
+import '../../service/auth_service/auth_service.dart';
+import '../hotel_view/hotel_profile.dart';
 
 class CustomerDashboard extends StatefulWidget {
   const CustomerDashboard({super.key});
@@ -17,6 +22,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
   final HotelProfileService _hotelProfileService=HotelProfileService();
   List<HotelProfileModel> _results=[];
   Timer? _debounce;
+  final authService=AuthService();
 
   @override
   void initState() {
@@ -57,6 +63,40 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
     return Scaffold(
       appBar: AppBar(
 
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text(
+                "",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_circle),
+              title: const Text("Profile"),
+              onTap: (){
+                setState(() {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerProfile()));
+                });
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
+              onTap: (){
+                authService.signOut();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AuthGate()));
+              },
+            ),
+          ],
+        ),
       ),
       backgroundColor: Colors.grey[100],
       body: SafeArea(

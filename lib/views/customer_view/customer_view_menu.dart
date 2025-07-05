@@ -17,11 +17,12 @@ class _CustomerViewMenuState extends State<CustomerViewMenu> {
   final CustomerMenuService _customerMenuService=CustomerMenuService();
   List<Category> _categories = [];
   Map<Item,int> _cart = {};
-
+  late String _username;
   @override
   void initState(){
     super.initState();
     _loadMenu();
+    _username=widget.username;
   }
   Future<void> _loadMenu() async{
     try {
@@ -52,7 +53,7 @@ class _CustomerViewMenuState extends State<CustomerViewMenu> {
     int quantity = _cart[item] ?? 0;
     return ListTile(
       title: Text(item.name),
-      subtitle: Text('₹${item.price}'),
+      subtitle: Text('₹${item.itemPrice}'),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -101,7 +102,7 @@ class _CustomerViewMenuState extends State<CustomerViewMenu> {
             minimumSize: const Size.fromHeight(50),
           ),
           onPressed: _cart.isNotEmpty?(){
-            Navigator.push(context, MaterialPageRoute(builder: (_) => CustomerCartScreen(cart: _cart)));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => CustomerCartScreen(cart: _cart,username: _username)));
           }:null,
           child: const Text("View Order"),
         ),
