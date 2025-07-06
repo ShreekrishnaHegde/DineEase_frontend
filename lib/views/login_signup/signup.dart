@@ -29,7 +29,7 @@ class _SignupState extends State<Signup> {
         borderRadius: BorderRadius.circular(16.0),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.blue, width: 2.0),
+        borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 2.0),
         borderRadius: BorderRadius.circular(8.0),
       ),
       // prefixIcon: Icon(icon, color: Colors.grey),
@@ -40,7 +40,7 @@ class _SignupState extends State<Signup> {
 
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     foregroundColor: Colors.white,
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.deepOrangeAccent,
     minimumSize: Size(double.infinity,50),
     // padding: EdgeInsets.symmetric(horizontal: 100),
     shape: const RoundedRectangleBorder(
@@ -61,24 +61,27 @@ class _SignupState extends State<Signup> {
   }
 
   Widget buildRoleDropdown(){
-    return DropdownButtonFormField<String>(
-        decoration: buildInputDecoration("Select Role"),
-        value: selectedRole,
-        isExpanded: true,
-        items: roles.map(
-                (role){
-              return DropdownMenuItem(
-                value: role,
-                child: Text(role),
-              );
-            }
-        ).toList(),
-        onChanged: (value){
-          setState(() {
-            selectedRole=value;
-            _roleController.text=value!;
-          });
-        }
+    return SizedBox(
+      width: double.infinity,
+      child: DropdownButtonFormField<String>(
+          decoration: buildInputDecoration("Select Role"),
+          value: selectedRole,
+          isExpanded: true,
+          items: roles.map(
+                  (role){
+                return DropdownMenuItem(
+                  value: role,
+                  child: Text(role),
+                );
+              }
+          ).toList(),
+          onChanged: (value){
+            setState(() {
+              selectedRole=value;
+              _roleController.text=value!;
+            });
+          }
+      ),
     );
   }
 
@@ -111,22 +114,37 @@ class _SignupState extends State<Signup> {
     final screen_height=MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          "Sign Up",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: Center(
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(20),
             child: ListView(
               children: [
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      fontSize: 22,
+                      height: 1.5,
+                      color: Colors.black87,
+                      fontFamily: 'Poppins',
+                    ),
+                    children: [
+                      const TextSpan(
+                        text: "Register\n",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const TextSpan(
+                        text: "Create your new account",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black54,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(height: screen_height/25,),
                 buildTextField(label: "Full Name",controller: _fullnameController),
                 SizedBox(height: screen_height/50,),
@@ -165,7 +183,7 @@ class _SignupState extends State<Signup> {
                         "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Colors.orange,
                         ),
                       ),
                     ),

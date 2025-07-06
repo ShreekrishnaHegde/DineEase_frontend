@@ -41,6 +41,17 @@ class CustomerOrderService{
       throw Exception("Failed to Place the order: ${response.body}");
     }
   }
+  Future<List<Map<String,dynamic>>> fetchCustomerOrder()async{
+    final response = await http.get(
+      Uri.parse("$baseUrl/api/orders/customer/$customerUsername"),
+    );
+    if (response.statusCode == 200) {
+      final List orders = jsonDecode(response.body);
+      return orders.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception("Failed to load orders: ${response.body}");
+    }
+  }
 
 
 }

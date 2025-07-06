@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
     @override
     State<Login> createState() => _LoginState();
   }
-
   class _LoginState extends State<Login> {
     final authService=AuthService();
     final _emailController=TextEditingController();
@@ -26,7 +25,7 @@ import 'package:flutter/material.dart';
           borderRadius: BorderRadius.circular(16.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2.0),
+          borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 2.0),
           borderRadius: BorderRadius.circular(8.0),
         ),
         prefixIcon: Icon(icon, color: Colors.grey),
@@ -36,7 +35,7 @@ import 'package:flutter/material.dart';
     }
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.deepOrangeAccent,
       minimumSize: Size(double.infinity,50),
       // padding: EdgeInsets.symmetric(horizontal: 100),
       shape: const RoundedRectangleBorder(
@@ -62,27 +61,49 @@ import 'package:flutter/material.dart';
     }
     @override
     Widget build(BuildContext context) {
-      final screen_width=MediaQuery.of(context).size.width;
       final screen_height=MediaQuery.of(context).size.height;
       return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          title: const Text(
-            "Login",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-        ),
+        resizeToAvoidBottomInset: false,
         body: Center(
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
+                  Image.asset(
+                    "assets/icons/logo1.png",
+                    height: screen_height/12,
+                  ),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 22,
+                        height: 1.5,
+                        color: Colors.black87,
+                        fontFamily: 'Poppins'
+                      ),
+                      children: [
+                        const TextSpan(
+                          text: "Hi, ",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        const TextSpan(
+                          text: "Welcome Back 👋\n",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(
+                          text: "Login to your account",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                              fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: screen_height/15,),
                   TextFormField(
                     controller: _emailController,
@@ -104,7 +125,6 @@ import 'package:flutter/material.dart';
                         },
                       )
                     ),
-
                   ),
                   SizedBox(height: 30,),
                   ElevatedButton(
@@ -134,7 +154,7 @@ import 'package:flutter/material.dart';
                           "SignUp",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.orange,
                           ),
                         ),
                       ),
