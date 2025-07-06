@@ -98,7 +98,7 @@ class _HotelMenuState extends State<HotelMenu> {
                   final name = nameControllers[i].text.trim();
                   final price = double.tryParse(priceControllers[i].text) ?? 0.0;
                   if (name.isNotEmpty) {
-                    items.add(Item(name: name, price: price));
+                    items.add(Item(name: name, itemPrice: price));
                   }
                 }
                 if (items.isNotEmpty) {
@@ -201,7 +201,7 @@ class _HotelMenuState extends State<HotelMenu> {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text("₹${item.price.toStringAsFixed(0)}"),
+                            Text("₹${item.itemPrice.toStringAsFixed(0)}"),
                             IconButton(
                               icon: Icon(Icons.delete),
                               onPressed: ()async{

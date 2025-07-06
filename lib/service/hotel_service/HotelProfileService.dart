@@ -33,4 +33,17 @@ class HotelProfileService{
       throw Exception('Failed to update profile');
     }
   }
+
+  Future<List<HotelProfileModel>> searchHotels(String query) async{
+    final response=await http.get(
+      Uri.parse("$baseUrl/api/hotel/search?query=$query")
+    );
+    if(response.statusCode==200){
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((json) => HotelProfileModel.fromJson(json)).toList();
+    }
+    else {
+      throw Exception("Failed to load the hotels");
+    }
+  }
 }

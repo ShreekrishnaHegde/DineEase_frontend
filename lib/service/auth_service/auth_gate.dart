@@ -10,11 +10,13 @@ import 'package:dine_ease/views/landingPage/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'auth_service.dart';
+
 
 
 class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
-
+  AuthGate({super.key});
+  final AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     
@@ -36,7 +38,7 @@ class AuthGate extends StatelessWidget {
         //check if there is a valid session currently
 
         if(session!=null){
-          return session.user.userMetadata?['role']=="Customer" ? CustomerDashboard(): HotelDashboard();
+          return session.user.userMetadata?['role']=="Customer" ? CustomerDashboard(): HotelDashboard(hotelUsername: authService.getCurrentUserEmail()!,);
         }
         else{
           return const LandingScreen();
