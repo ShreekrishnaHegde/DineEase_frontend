@@ -1,6 +1,7 @@
 import 'package:dine_ease/models/Item.dart';
 import 'package:dine_ease/service/customer_service/customer_order_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomerCartScreen extends StatefulWidget {
   final Map<Item,int> cart;
@@ -44,51 +45,89 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text("Your Cart"),
+        title: Text(
+            "Your Cart",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+        ),
+        centerTitle: true,
       ),
       body: _cart.isEmpty?
-      const Center(child: Text("Your cart is empty"),)
+        Center(
+        child: Text(
+            "Your cart is empty",
+            style: GoogleFonts.poppins(fontSize: 16, color: Colors.black54)
+          ),
+        )
       : ListView(
         padding: EdgeInsets.all(16),
         children: _cart.entries.map((entry){
           final item=entry.key;
           final qty=entry.value;
-          return ListTile(
-            title: Text(item.name),
-            subtitle: Text("Price: ₹${item.itemPrice}"),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: (){
-                    _decreaseQty(item);
-                  },
-                  icon: const Icon(Icons.remove_circle_outline),
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ListTile(
+              title: Text(
+                  item.name,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
                 ),
-                Text("$qty"),
-                IconButton(
-                  onPressed: (){
-                    _increaseQty(item);
-                  },
-                  icon: const Icon(Icons.add_circle_outline),
-                )
-              ],
+              ),
+              subtitle: Text(
+                  "Price: ₹${item.itemPrice}",
+                style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey[600]),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: (){
+                      _decreaseQty(item);
+                    },
+                    icon: const Icon(Icons.remove_circle_outline,color: Colors.deepOrange,),
+                  ),
+                  Text(
+                      "$qty",
+                    style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  IconButton(
+                    onPressed: (){
+                      _increaseQty(item);
+                    },
+                    icon: const Icon(Icons.add_circle_outline,color: Colors.deepOrange,),
+                  )
+                ],
+              ),
             ),
           );
         }).toList(),
       ),
       bottomNavigationBar: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [ BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0, -2),
+            blurRadius: 6,
+          ),]
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Total : $total",
-              style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: _cart.isEmpty?null:
               ()async{
                 try{
@@ -102,7 +141,15 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                   );
                 }
               },
-              child: const Text("Place Order"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepOrangeAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              label: const Text(
+                "Place Order",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.black),
+              ),
             )
           ],
         ),
