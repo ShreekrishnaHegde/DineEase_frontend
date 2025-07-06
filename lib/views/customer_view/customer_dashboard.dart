@@ -86,7 +86,15 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
             ),
           ),
         backgroundColor: Colors.deepOrangeAccent,
-
+        actions: [
+          IconButton(
+            icon: Icon(Icons.receipt_long),
+            tooltip: "Orders",
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>CustomerOrderPage()));
+            },
+          )
+        ],
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -109,15 +117,6 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
               onTap: (){
                 setState(() {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerProfile()));
-                });
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.account_circle),
-              title: const Text("My Orders"),
-              onTap: (){
-                setState(() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerOrderPage()));
                 });
               },
             ),

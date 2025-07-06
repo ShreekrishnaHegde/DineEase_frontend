@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:dine_ease/models/Item.dart';
 import 'package:dine_ease/service/customer_service/customer_order_service.dart';
+import 'package:dine_ease/views/customer_view/customer_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -155,7 +156,7 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                   await Future.delayed(const Duration(seconds: 2));
                   if (context.mounted) {
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => const CustomerOrderPage()),
+                      MaterialPageRoute(builder: (_) => const CustomerDashboard()),
                     );
                   }
                 }catch (e) {
