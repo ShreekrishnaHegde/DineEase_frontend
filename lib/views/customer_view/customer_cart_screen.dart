@@ -1,7 +1,10 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:dine_ease/models/Item.dart';
 import 'package:dine_ease/service/customer_service/customer_order_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'customer_order_page.dart';
 
 class CustomerCartScreen extends StatefulWidget {
   final Map<Item,int> cart;
@@ -132,9 +135,29 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
               ()async{
                 try{
                   await orderService.placeOrder(hotelUsername: _username,  cart: _cart);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Order Placed")),
-                  );
+                  Flushbar(
+                      messageText: Row(
+                        children: [
+                          const Icon(Icons.check_circle, color: Colors.white),
+                          const SizedBox(width: 12),
+                          const Text(
+                            "Order Placed Successfully!",
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ],
+                      ),duration: const Duration(seconds: 2),
+                    flushbarPosition: FlushbarPosition.TOP,
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    borderRadius: BorderRadius.circular(12),
+                    backgroundColor: Colors.green,
+                    animationDuration: const Duration(milliseconds: 500),
+                  ).show(context);
+                  await Future.delayed(const Duration(seconds: 2));
+                  if (context.mounted) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (_) => const CustomerOrderPage()),
+                    );
+                  }
                 }catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Error: $e")),

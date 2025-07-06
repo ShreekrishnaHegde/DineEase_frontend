@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dine_ease/models/HotelProfileModel.dart';
 import 'package:dine_ease/service/customer_service/customer_profile_service.dart';
 import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
+import 'package:dine_ease/views/customer_view/customer_order_page.dart';
 import 'package:dine_ease/views/customer_view/customer_profile.dart';
 import 'package:dine_ease/views/customer_view/customer_view_menu.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +109,15 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
               onTap: (){
                 setState(() {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerProfile()));
+                });
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_circle),
+              title: const Text("My Orders"),
+              onTap: (){
+                setState(() {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerOrderPage()));
                 });
               },
             ),
