@@ -72,6 +72,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
             "DineEase",
@@ -86,12 +87,6 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
         backgroundColor: Colors.deepOrangeAccent,
 
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: (){},
-          )
-        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -168,10 +163,23 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20,),
               Expanded(
                 child: _results.isEmpty
-                ?const Center(child: Text("No Results Found")) :
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/customer/nodata.png"
+                        ),
+                        SizedBox(height: 16,),
+                        Text(
+                          "No matching hotels found",
+                          style: GoogleFonts.poppins(fontSize: 16,color: Colors.black54),
+                        )
+                      ],
+                    )
+                ) :
                     ListView.builder(
                       itemCount: _results.length,
                       itemBuilder: (context,index){
