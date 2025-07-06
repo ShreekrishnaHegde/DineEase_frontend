@@ -69,7 +69,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Colors.deepOrangeAccent),
               child: Text(
                 "",
                 style: TextStyle(
