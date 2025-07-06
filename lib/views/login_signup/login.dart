@@ -61,7 +61,6 @@ import 'package:flutter/material.dart';
     }
     @override
     Widget build(BuildContext context) {
-      final screen_width=MediaQuery.of(context).size.width;
       final screen_height=MediaQuery.of(context).size.height;
       return Scaffold(
         backgroundColor: Colors.white,
@@ -83,7 +82,7 @@ import 'package:flutter/material.dart';
                         fontSize: 22,
                         height: 1.5,
                         color: Colors.black87,
-
+                        fontFamily: 'Poppins'
                       ),
                       children: [
                         const TextSpan(
@@ -155,7 +154,7 @@ import 'package:flutter/material.dart';
                           "SignUp",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.orange,
                           ),
                         ),
                       ),
