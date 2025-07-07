@@ -3,10 +3,12 @@ import 'dart:ui';
 
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
+import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
 import 'package:dine_ease/service/hotel_service/hotel_order_service.dart';
 import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
 import 'package:dine_ease/views/hotel_view/hotel_stats.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'hotel_menu.dart';
 
@@ -23,16 +25,28 @@ class _HotelDashboardState extends State<HotelDashboard> {
   List<dynamic> _orders = [];
   final authService=AuthService();
   final hotelOrderService=HotelOrderService();
+  final hotelProfileService=HotelProfileService();
   late String _hotelUsername;
+  String hotelName="";
   Timer? _timer;
+  bool isLoading=true;
   @override
   void initState(){
     super.initState();
+
     _hotelUsername=widget.hotelUsername;
     _hotelUsername = widget.hotelUsername;
+    loadProfile();
     _loadOrders(); // initial load
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       _loadOrders(); // refresh every 5 seconds
+    });
+  }
+  Future<void> loadProfile() async {
+    final profile = await hotelProfileService.fetchProfile();
+    setState(() {
+      hotelName = profile.hotelName!;
+      isLoading = false;
     });
   }
   @override
@@ -63,8 +77,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
           )
         ],
         centerTitle: true,
-        title: const Text(
-            "Hotel Name"
+        title:  Text(
+          isLoading ? "Loading..." : "$hotelName",
+          style: GoogleFonts.poppins(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
         ),
       ),
       drawer: Drawer(
@@ -139,7 +158,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
       ),
 
       bottomNavigationBar:  BottomAppBar(
-        color: Colors.blue,
+        color: Colors.deepOrangeAccent,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
           child: Row(
@@ -149,9 +168,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelMenu()));
                   },
-                  child: const Text(
+                  child: Text(
                     "Menu",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
@@ -160,9 +183,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
                   },
-                  child: const Text(
+                  child: Text(
                     "Statistics",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),

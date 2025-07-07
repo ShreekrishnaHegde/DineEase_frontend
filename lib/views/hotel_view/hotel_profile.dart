@@ -143,6 +143,12 @@ class _HotelProfileState extends State<HotelProfile> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: saveProfile,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrangeAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      )
+                  ),
                   child: Text(
                       "Save",
                       style: GoogleFonts.poppins(
