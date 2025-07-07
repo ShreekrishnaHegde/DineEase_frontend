@@ -1,4 +1,6 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/HotelProfileModel.dart';
 import '../../service/hotel_service/HotelProfileService.dart';
@@ -36,7 +38,15 @@ class _HotelProfileState extends State<HotelProfile> {
       address: _addressController.text,
     );
     await _service.updateProfile(updated);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile Updated')));
+    Flushbar(
+      message: "Profile Updated",
+      duration: Duration(seconds: 2),
+      backgroundColor: Colors.green,
+      flushbarPosition: FlushbarPosition.TOP,
+      borderRadius: BorderRadius.circular(8),
+      margin: EdgeInsets.all(12),
+      icon: Icon(Icons.check_circle, color: Colors.white),
+    ).show(context);
   }
   @override
   void initState(){
@@ -47,41 +57,101 @@ class _HotelProfileState extends State<HotelProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Profile",style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          "My Profile",
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.w600,
+            fontSize: 22,
+          ),
+        ),
         centerTitle: true,
+        backgroundColor: Colors.deepOrangeAccent,
       ),
       body: isLoading
         ? const Center(child: CircularProgressIndicator())
         : Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             children: [
+              Text(
+                "Update your information",
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 24,),
+
               TextFormField(
                 readOnly: true,
                 initialValue: email,
-                decoration: const InputDecoration(labelText: "Email"),
+                decoration:  InputDecoration(
+                    labelText: "Email",
+                    labelStyle: GoogleFonts.poppins(),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    )
+                ),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _hotelNameController,
-                decoration: const InputDecoration(labelText: "Hotel Name"),
+                decoration:  InputDecoration(
+                    labelText: "Hotel Name",
+                    labelStyle: GoogleFonts.poppins(),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    )
+                ),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _fullnameController,
-                decoration: const InputDecoration(labelText: "Owner Name"),
+                decoration:  InputDecoration(
+                    labelText: "Full Name",
+                    labelStyle: GoogleFonts.poppins(),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    )
+                ),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _addressController,
-                decoration: const InputDecoration(labelText: "Address"),
+                decoration:  InputDecoration(
+                    labelText: "Address",
+                    labelStyle: GoogleFonts.poppins(),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    )
+                ),
               ),
               const Spacer(),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: saveProfile,
-                  child: const Text("Save"),
+                  child: Text(
+                      "Save",
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                  ),
                 ),
               )
             ],
