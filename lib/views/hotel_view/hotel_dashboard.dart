@@ -33,7 +33,6 @@ class _HotelDashboardState extends State<HotelDashboard> {
   @override
   void initState(){
     super.initState();
-
     _hotelUsername=widget.hotelUsername;
     _hotelUsername = widget.hotelUsername;
     loadProfile();
@@ -91,7 +90,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Colors.deepOrangeAccent),
               child: Text(
                 "",
                 style: TextStyle(
@@ -146,7 +145,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
                             "${item['itemName']} x${item['quantity']} - ₹${item['itemPrice'] * item['quantity']}")),
                         const SizedBox(height: 6),
                         Text("Total: ₹${order['totalAmount']}"),
-                        Text("Status: ${order['status']}"),
+                        // Text("Status: ${order['status']}"),
                       ],
                     ),
                   ),
