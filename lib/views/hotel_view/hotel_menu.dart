@@ -175,7 +175,7 @@ class _HotelMenuState extends State<HotelMenu> {
         centerTitle: true,
         backgroundColor: Colors.deepOrangeAccent,
         title: Text("Menu Manager",style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         actions: [
           IconButton(
             onPressed: _addCategoryDialog,

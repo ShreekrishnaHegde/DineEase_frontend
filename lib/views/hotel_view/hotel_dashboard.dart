@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
@@ -23,12 +22,10 @@ class HotelDashboard extends StatefulWidget {
 
 class _HotelDashboardState extends State<HotelDashboard> {
   List<dynamic> _orders = [];
-  List<dynamic> _previousOrders= [];
+  // List<dynamic> _previousOrders= [];
   final authService=AuthService();
   final hotelOrderService=HotelOrderService();
   final hotelProfileService=HotelProfileService();
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
   late String _hotelUsername;
   String hotelName="";
   Timer? _timer;
@@ -56,24 +53,6 @@ class _HotelDashboardState extends State<HotelDashboard> {
     _timer?.cancel();
     super.dispose();
   }
-  Future<void> _showNewOrderNotification() async{
-    const AndroidNotificationDetails androidDetails=AndroidNotificationDetails(
-      'order_channel_id',
-      'New Orders',
-      importance: Importance.max,
-      priority: Priority.high,
-      showWhen: true,
-    );
-    const NotificationDetails notificationDetails=NotificationDetails(
-      android: androidDetails,
-    );
-    await flutterLocalNotificationsPlugin.show(
-        0,
-        "New Order Received",
-        "A customer has just placed a new order",
-        notificationDetails
-    );
-  }
   bool _areOrdersEqual(List<dynamic> a, List<dynamic> b) {
     // Very basic comparison — improve with deep equality if needed
     for (int i = 0; i < a.length; i++) {
@@ -86,11 +65,8 @@ class _HotelDashboardState extends State<HotelDashboard> {
   Future<void> _loadOrders() async {
     try {
       final data = await hotelOrderService.fetchOrders(_hotelUsername);
-      if(data.length != _orders.length || !_areOrdersEqual(data, _orders)){
-        _showNewOrderNotification();
-      }
       setState(() {
-        _previousOrders=_orders;
+        // _previousOrders=_orders;
         _orders = data;
       });
     } catch (e) {
