@@ -99,14 +99,31 @@ class _HotelDashboardState extends State<HotelDashboard> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.deepOrangeAccent),
-              child: Text(
-                "",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24
-                ),
-              ),
+              decoration: BoxDecoration(color: Colors.lightBlue),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      "A",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: Colors.lightBlue,
+                      ),
+                    ),
+                  ),
+                  // Text(
+                  //   "FullName",
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 28,
+                  //   ),
+                  // )
+                ],
+              )
             ),
             ListTile(
               leading: const Icon(Icons.account_circle),
@@ -156,7 +173,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
         },
       ),
       bottomNavigationBar:  BottomAppBar(
-        color: Colors.deepOrangeAccent,
+        color: Colors.lightBlue,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
           child: Row(

@@ -37,6 +37,7 @@ class _HotelProfileState extends State<HotelProfile> {
       address: _addressController.text,
     );
     await _service.updateProfile(updated);
+
     Flushbar(
       message: "Profile Updated",
       duration: Duration(seconds: 2),
