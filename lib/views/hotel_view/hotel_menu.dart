@@ -176,13 +176,6 @@ class _HotelMenuState extends State<HotelMenu> {
         backgroundColor: Colors.deepOrangeAccent,
         title: Text("Menu Manager",style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
         automaticallyImplyLeading: true,
-        actions: [
-          IconButton(
-            onPressed: _addCategoryDialog,
-            icon: Icon(Icons.add,size: 28,),
-              tooltip: "Add Category"
-          )
-        ],
       ),
       body: FutureBuilder(
         future: _categoriesFuture,
@@ -257,6 +250,11 @@ class _HotelMenuState extends State<HotelMenu> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Increment',
+          onPressed: _addCategoryDialog,
+          child: Icon(Icons.add),
       ),
     );
   }
