@@ -156,6 +156,7 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                   ).show(context);
                   await Future.delayed(const Duration(seconds: 2));
                   //Testing notification
+                  print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh");
                   NotificationService().showNotification(
                     title: "Title",
                     body: "Body",

@@ -8,7 +8,7 @@ class NotificationService{
   //Initialise
   Future<void> initNotification() async{
     //Preventing reinitialization
-    const initSettingAndroid=AndroidInitializationSettings('@mipmap/ic_laucher');
+    const initSettingAndroid=AndroidInitializationSettings('@mipmap/ic_launcher');
     if(_isInitialized) return;
     //Init settings
     const initSettings=InitializationSettings(
@@ -34,6 +34,6 @@ class NotificationService{
     String? title,
     String? body,
 })async{
-    return notificationPlugin.show(id, title, body, const NotificationDetails());
+    return notificationPlugin.show(id, title, body,  notificationDetails());
   }
 }
