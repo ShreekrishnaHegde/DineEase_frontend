@@ -79,12 +79,6 @@ class _HotelDashboardState extends State<HotelDashboard> {
     //How many orders to show?
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: (){},
-          )
-        ],
         centerTitle: true,
         title:  Text(
           isLoading ? "Loading..." : hotelName,
@@ -150,12 +144,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
           : ListView.builder(
         itemCount: _orders.length,
         itemBuilder: (context, index) {
-          final order = _orders[index];
+          final reversedOrders = _orders.reversed.toList();
+          final order = reversedOrders[index];
           return Card(
             color: Colors.grey.shade100,
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: ListTile(
-              title: Text("Order #${index + 1}"),
+              title: Text("Order #${_orders.length-index }"),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -190,21 +185,21 @@ class _HotelDashboardState extends State<HotelDashboard> {
                   ),
                 ),
               ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
-                  },
-                  child: Text(
-                    "Statistics",
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
+              // Expanded(
+              //   child: TextButton(
+              //     onPressed: () {
+              //       Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
+              //     },
+              //     child: Text(
+              //       "Statistics",
+              //       style: GoogleFonts.poppins(
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 18,
+              //         color: Colors.black,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
