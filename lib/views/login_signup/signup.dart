@@ -29,7 +29,7 @@ class _SignupState extends State<Signup> {
         borderRadius: BorderRadius.circular(16.0),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 2.0),
+        borderSide: BorderSide(color: Color(0xFF140447), width: 2.0),
         borderRadius: BorderRadius.circular(8.0),
       ),
       // prefixIcon: Icon(icon, color: Colors.grey),
@@ -40,7 +40,7 @@ class _SignupState extends State<Signup> {
 
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     foregroundColor: Colors.white,
-    backgroundColor: Colors.deepOrangeAccent,
+    backgroundColor: Color(0xFF140447),
     minimumSize: Size(double.infinity,50),
     // padding: EdgeInsets.symmetric(horizontal: 100),
     shape: const RoundedRectangleBorder(
@@ -183,7 +183,7 @@ class _SignupState extends State<Signup> {
                         "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.orange,
+                          color: Color(0xFF140447),
                         ),
                       ),
                     ),

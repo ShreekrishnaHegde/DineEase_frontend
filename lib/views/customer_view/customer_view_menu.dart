@@ -99,7 +99,7 @@ class _CustomerViewMenuState extends State<CustomerViewMenu> {
             fontSize: 22,
           ),
         ),
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.lightBlue,
         centerTitle: true,
       ),
       body: _categories.isEmpty
@@ -147,7 +147,7 @@ class _CustomerViewMenuState extends State<CustomerViewMenu> {
           height: 50,
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepOrangeAccent,
+              backgroundColor: Colors.lightBlue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

@@ -2,6 +2,7 @@ import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async{
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+      ),
       title: 'DineEase',
       home: AuthGate(),
       // home: HotelDashboard(),

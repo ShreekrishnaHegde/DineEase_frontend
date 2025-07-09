@@ -34,7 +34,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
     Flushbar(
       message: "Profile Updated",
       duration: Duration(seconds: 2),
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xFF3166B8),
       flushbarPosition: FlushbarPosition.TOP,
       borderRadius: BorderRadius.circular(8),
       margin: EdgeInsets.all(12),
@@ -58,7 +58,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
             ),
           ),
           centerTitle: true,
-          backgroundColor: Colors.deepOrangeAccent,
+          backgroundColor: Colors.lightBlue,
         ),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
@@ -110,7 +110,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 child: ElevatedButton(
                   onPressed: saveProfile,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepOrangeAccent,
+                    backgroundColor: Colors.lightBlue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     )

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
@@ -29,6 +28,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
   final hotelProfileService=HotelProfileService();
   late String _hotelUsername;
   String hotelName="";
+  String _fullname="";
   Timer? _timer;
   bool isLoading=true;
   @override
@@ -47,6 +47,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
     final profile = await hotelProfileService.fetchProfile();
     setState(() {
       hotelName = profile.hotelName!;
+      _fullname=profile.fullname;
       isLoading = false;
     });
   }
@@ -59,7 +60,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
     try {
       final data = await hotelOrderService.fetchOrders(_hotelUsername);
       if (_previousOrders.isNotEmpty && data.length > _previousOrders.length) {
-        NotificationService().showNotification(
+        await NotificationService().showNotification(
           title: "New Order",
           body: "You received a new customer order!",
         );
@@ -68,8 +69,9 @@ class _HotelDashboardState extends State<HotelDashboard> {
         _previousOrders=_orders;
         _orders = data;
       });
-    } catch (e) {
-      print('Failed to load orders: $e');
+    }
+    catch(e){
+      debugPrint("Failed to fetch orders or show notification: $e");
     }
   }
   @override
@@ -85,7 +87,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
         ],
         centerTitle: true,
         title:  Text(
-          isLoading ? "Loading..." : "$hotelName",
+          isLoading ? "Loading..." : hotelName,
           style: GoogleFonts.poppins(
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -97,7 +99,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(color: Colors.lightBlue),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -106,8 +108,8 @@ class _HotelDashboardState extends State<HotelDashboard> {
                     radius: 40,
                     backgroundColor: Colors.white,
                     child: Text(
-                      "A",
-                      style: TextStyle(
+                      _fullname.isNotEmpty ? _fullname[0].toUpperCase() : '',
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28,
                         color: Colors.lightBlue,
@@ -122,7 +124,10 @@ class _HotelDashboardState extends State<HotelDashboard> {
               title: const Text("Profile"),
               onTap: (){
                 setState(() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelProfile()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelProfile()))
+                  .then((_)=>{
+                    loadProfile(),
+                  });
                 });
               },
             ),

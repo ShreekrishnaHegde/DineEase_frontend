@@ -24,7 +24,7 @@ class _CustomerOrderPageState extends State<CustomerOrderPage> {
       appBar: AppBar(
         title: const Text("My Orders"),
         centerTitle: true,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.lightBlue,
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _ordersFuture,
@@ -36,7 +36,7 @@ class _CustomerOrderPageState extends State<CustomerOrderPage> {
             return const Center(child: Text("You have not placed any orders yet."));
           }
 
-          final orders = snapshot.data!;
+          final orders = snapshot.data!.reversed.toList();
           return ListView.builder(
             padding: const EdgeInsets.all(16),
             itemCount: orders.length,
@@ -50,7 +50,7 @@ class _CustomerOrderPageState extends State<CustomerOrderPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Order #${index + 1}",
+                      Text("Order #${orders.length-index}",
                           style: GoogleFonts.poppins(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,

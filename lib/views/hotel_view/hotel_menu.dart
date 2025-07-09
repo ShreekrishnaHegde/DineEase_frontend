@@ -173,7 +173,7 @@ class _HotelMenuState extends State<HotelMenu> {
       backgroundColor: const Color(0xfff8f8f8),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.lightBlue,
         title: Text("Menu Manager",style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
         automaticallyImplyLeading: true,
       ),

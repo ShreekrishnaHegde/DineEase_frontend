@@ -35,7 +35,7 @@ class LandingScreen extends StatelessWidget {
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF140447),
+                  color: Color(0xFF2D20B8),
                   letterSpacing: 0.8,
                   height: 1.4,
                 ),
@@ -61,9 +61,9 @@ class LandingScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                   },
-                  child: const Text(
+                  child:  Text(
                     "Login",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
                         fontSize: 20
                     ),
@@ -76,9 +76,9 @@ class LandingScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
                   },
-                  child: const Text(
+                  child:  Text(
                     "SignUp",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
                         fontSize: 20
                     ),

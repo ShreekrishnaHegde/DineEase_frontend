@@ -61,7 +61,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
         _results = results;
       });
     } catch (e) {
-      print("Search error: $e");
+      debugPrint("Search error: $e");
     }
   }
   @override
@@ -85,7 +85,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
               height: 1.4,
             ),
           ),
-        backgroundColor: Colors.lightBlue[900],
+        backgroundColor: Colors.lightBlue,
         actions: [
           IconButton(
             icon: Icon(Icons.receipt_long),
@@ -102,7 +102,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.lightBlue[900]),
+              decoration: BoxDecoration(color: Colors.lightBlue),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -110,7 +110,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
                     radius: 40,
                     backgroundColor: Colors.white,
                     child: Text(
-                      _fullname.isNotEmpty ? _fullname[0] : '',
+                      _fullname.isNotEmpty ? _fullname[0].toUpperCase() : '',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28,
@@ -213,8 +213,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(12),
                               leading: CircleAvatar(
-                                backgroundColor: Colors.deepOrange.shade100,
-                                child: const Icon(Icons.store, color: Colors.deepOrange),
+                                child: const Icon(Icons.store),
                               ),
                               title: Text(
                                 hotel.hotelName!,
