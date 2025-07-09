@@ -48,50 +48,62 @@ class _HotelMenuState extends State<HotelMenu> {
       context: context,
       builder: (_) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: Text("Add Multiple Items"),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          title: const Text(
+            "Add Items",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           content: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              // mainAxisSize: MainAxisSize.min,
               children: List.generate(nameControllers.length, (index) {
-                return Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: nameControllers[index],
-                        decoration: InputDecoration(labelText: "Item Name"),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: nameControllers[index],
+                          decoration: InputDecoration(
+                              labelText: "Item Name",
+                          ),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: TextField(
-                        controller: priceControllers[index],
-                        decoration: InputDecoration(labelText: "Price"),
-                        keyboardType: TextInputType.number,
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: TextField(
+                          controller: priceControllers[index],
+                          decoration: InputDecoration(
+                              labelText: "Price",
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.remove_circle, color: Colors.red),
-                      onPressed: nameControllers.length > 1
-                          ? () {
-                        removeField(index);
-                        setState(() {});
-                      }
-                          : null,
-                    )
-                  ],
+                      IconButton(
+                        icon: Icon(Icons.remove_circle, color: Colors.red),
+                        onPressed: nameControllers.length > 1
+                            ? () {
+                          removeField(index);
+                          setState(() {});
+                        }
+                            : null,
+                      )
+                    ],
+                  ),
                 );
               }),
             ),
           ),
           actions: [
-            TextButton(
+            TextButton.icon(
               onPressed: () {
                 addNewField();
                 setState(() {});
               },
-              child: Text("Add More"),
+              icon: const Icon(Icons.add),
+              label: Text("Add More"),
             ),
-            TextButton(
+            ElevatedButton.icon(
               onPressed: () async {
                 List<Item> items = [];
                 for (int i = 0; i < nameControllers.length; i++) {
@@ -108,7 +120,11 @@ class _HotelMenuState extends State<HotelMenu> {
                 }
 
               },
-              child: Text("Save All"),
+              icon: const Icon(Icons.save),
+              label: const Text("Save All"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
             )
           ],
         ),
@@ -119,7 +135,11 @@ class _HotelMenuState extends State<HotelMenu> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text("Add Category"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        title: Text(
+          "Add Category",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
         content: TextField(
           controller: _categoryController,
           decoration: InputDecoration(labelText: "Category Name"),
@@ -132,7 +152,15 @@ class _HotelMenuState extends State<HotelMenu> {
               Navigator.pop(context);
                _refreshCategories();
             },
-            child: Text("Add"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepPurple,
+            ),
+            child: Text(
+                "Add",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+            ),
           ),
         ],
       )
@@ -142,16 +170,12 @@ class _HotelMenuState extends State<HotelMenu> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: const Color(0xfff8f8f8),
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Menu Manager",style: TextStyle(fontWeight: FontWeight.bold),),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: _addCategoryDialog,
-            icon: Icon(Icons.add),
-          )
-        ],
+        backgroundColor: Colors.deepOrangeAccent,
+        title: Text("Menu Manager",style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
+        automaticallyImplyLeading: true,
       ),
       body: FutureBuilder(
         future: _categoriesFuture,
@@ -160,7 +184,10 @@ class _HotelMenuState extends State<HotelMenu> {
             return Center(child: CircularProgressIndicator(),);
           }
           if(snapshot.hasError){
-            return Center(child: Text("Error Loading Menu"),);
+            return Center(child: Text(
+                "Error Loading Menu",
+                style: TextStyle(fontSize: 16, color: Colors.red),
+            ),);
           }
           final categories=snapshot.data!;
           return ListView.builder(
@@ -168,31 +195,31 @@ class _HotelMenuState extends State<HotelMenu> {
             itemBuilder: (_,categoryIndex){
               final category=categories[categoryIndex];
               return Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 margin: EdgeInsets.all(10),
                 child: Theme(
                   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
-                    title: Row(
+                    title: Text(
+                      category.name,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    trailing: Wrap(
+                      spacing: 8,
                       children: [
-                        Expanded(
-                          child: Text(
-                            category.name,
-                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                          ),
-                        ),
                         IconButton(
-                          icon: Icon(Icons.delete,color: Colors.red,),
-                          onPressed: () async{
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          tooltip: "Delete Category",
+                          onPressed: () async {
                             await _service.deleteCategory(category.id);
                             _refreshCategories();
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: (){
-                            _addItemDialog(category);
-                          },
-                        )
+                          icon: const Icon(Icons.add, color: Colors.green),
+                          tooltip: "Add Item",
+                          onPressed: () => _addItemDialog(category),
+                        ),
                       ],
                     ),
                     children: category.items.map((item){
@@ -201,12 +228,16 @@ class _HotelMenuState extends State<HotelMenu> {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text("₹${item.itemPrice.toStringAsFixed(0)}"),
+                            Text(
+                              "₹${item.itemPrice.toStringAsFixed(0)}",
+                              style: const TextStyle(fontWeight: FontWeight.w500),
+                            ),
                             IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: ()async{
-                                 await _service.deleteItem(category.id, item.id);
-                                 _refreshCategories();
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              tooltip: "Delete Item",
+                              onPressed: () async {
+                                await _service.deleteItem(category.id, item.id);
+                                _refreshCategories();
                               },
                             ),
                           ],
@@ -219,6 +250,11 @@ class _HotelMenuState extends State<HotelMenu> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Increment',
+          onPressed: _addCategoryDialog,
+          child: Icon(Icons.add),
       ),
     );
   }

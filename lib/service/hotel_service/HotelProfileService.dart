@@ -12,7 +12,6 @@ class HotelProfileService{
   //To fetch Profile details
   Future<HotelProfileModel> fetchProfile() async {
     final response = await http.get(Uri.parse("$baseUrl/api/hotel/$username/profile"));
-    print(response.body);
     if (response.statusCode == 200) {
       return HotelProfileModel.fromJson(jsonDecode(response.body));
     } else {
@@ -28,7 +27,6 @@ class HotelProfileService{
       },
       body: jsonEncode(profile.toJson()),
     );
-    print(response.body);
     if (response.statusCode != 200) {
       throw Exception('Failed to update profile');
     }

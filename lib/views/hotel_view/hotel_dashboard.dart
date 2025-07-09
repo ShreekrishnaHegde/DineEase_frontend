@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
+import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
 import 'package:dine_ease/service/hotel_service/hotel_order_service.dart';
 import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
 import 'package:dine_ease/views/hotel_view/hotel_stats.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'hotel_menu.dart';
 
@@ -21,18 +22,30 @@ class HotelDashboard extends StatefulWidget {
 
 class _HotelDashboardState extends State<HotelDashboard> {
   List<dynamic> _orders = [];
+  // List<dynamic> _previousOrders= [];
   final authService=AuthService();
   final hotelOrderService=HotelOrderService();
+  final hotelProfileService=HotelProfileService();
   late String _hotelUsername;
+  String hotelName="";
   Timer? _timer;
+  bool isLoading=true;
   @override
   void initState(){
     super.initState();
     _hotelUsername=widget.hotelUsername;
     _hotelUsername = widget.hotelUsername;
+    loadProfile();
     _loadOrders(); // initial load
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       _loadOrders(); // refresh every 5 seconds
+    });
+  }
+  Future<void> loadProfile() async {
+    final profile = await hotelProfileService.fetchProfile();
+    setState(() {
+      hotelName = profile.hotelName!;
+      isLoading = false;
     });
   }
   @override
@@ -40,11 +53,20 @@ class _HotelDashboardState extends State<HotelDashboard> {
     _timer?.cancel();
     super.dispose();
   }
-
+  bool _areOrdersEqual(List<dynamic> a, List<dynamic> b) {
+    // Very basic comparison — improve with deep equality if needed
+    for (int i = 0; i < a.length; i++) {
+      if (i >= b.length || a[i]['id'] != b[i]['id']) {
+        return false;
+      }
+    }
+    return a.length == b.length;
+  }
   Future<void> _loadOrders() async {
     try {
       final data = await hotelOrderService.fetchOrders(_hotelUsername);
       setState(() {
+        // _previousOrders=_orders;
         _orders = data;
       });
     } catch (e) {
@@ -63,8 +85,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
           )
         ],
         centerTitle: true,
-        title: const Text(
-            "Hotel Name"
+        title:  Text(
+          isLoading ? "Loading..." : "$hotelName",
+          style: GoogleFonts.poppins(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
         ),
       ),
       drawer: Drawer(
@@ -72,14 +99,31 @@ class _HotelDashboardState extends State<HotelDashboard> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text(
-                "",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24
-                ),
-              ),
+              decoration: BoxDecoration(color: Colors.lightBlue),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      "A",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: Colors.lightBlue,
+                      ),
+                    ),
+                  ),
+                  // Text(
+                  //   "FullName",
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 28,
+                  //   ),
+                  // )
+                ],
+              )
             ),
             ListTile(
               leading: const Icon(Icons.account_circle),
@@ -101,45 +145,35 @@ class _HotelDashboardState extends State<HotelDashboard> {
           ],
         ),
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: hotelOrderService.fetchOrders(_hotelUsername),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("No orders Currently"));
-          } else {
-            final orders = snapshot.data!;
-            return ListView.builder(
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: ListTile(
-                    title: Text("Order #${index + 1}"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...List.from(order['items']).map((item) => Text(
-                            "${item['itemName']} x${item['quantity']} - ₹${item['itemPrice'] * item['quantity']}")),
-                        const SizedBox(height: 6),
-                        Text("Total: ₹${order['totalAmount']}"),
-                        Text("Status: ${order['status']}"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          }
+      body:
+      isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _orders.isEmpty
+          ? const Center(child: Text("No orders currently"))
+          : ListView.builder(
+        itemCount: _orders.length,
+        itemBuilder: (context, index) {
+          final order = _orders[index];
+          return Card(
+            color: Colors.grey.shade100,
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: ListTile(
+              title: Text("Order #${index + 1}"),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ...List.from(order['items']).map((item) => Text(
+                      "${item['itemName']} x${item['quantity']} - ₹${item['itemPrice'] * item['quantity']}")),
+                  const SizedBox(height: 6),
+                  Text("Total: ₹${order['totalAmount']}"),
+                ],
+              ),
+            ),
+          );
         },
       ),
-
       bottomNavigationBar:  BottomAppBar(
-        color: Colors.blue,
+        color: Colors.lightBlue,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
           child: Row(
@@ -149,9 +183,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelMenu()));
                   },
-                  child: const Text(
+                  child: Text(
                     "Menu",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
@@ -160,9 +198,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
                   },
-                  child: const Text(
+                  child: Text(
                     "Statistics",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),

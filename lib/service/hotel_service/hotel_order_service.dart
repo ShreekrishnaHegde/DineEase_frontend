@@ -6,14 +6,9 @@ class HotelOrderService{
   final String baseUrl = dotenv.env['API_BASE_URL']!;
 
   Future<List<dynamic>> fetchOrders(String hotelUsername) async{
-    print("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
     final response=await http.get(
       Uri.parse("$baseUrl/api/orders/hotel/$hotelUsername")
     );
-    print("Status: ${response.statusCode}");
-    print("Body: ${response.body}");
-
-    print(response.body);
     if(response.statusCode==200){
       return jsonDecode(response.body);
     }

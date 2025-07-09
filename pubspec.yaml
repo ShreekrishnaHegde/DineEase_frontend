@@ -39,6 +39,7 @@ dependencies:
   http: ^1.4.0
   another_flushbar: ^1.10.28
 
+
 dev_dependencies:
   flutter_launcher_icons: "^0.14.4"
 
