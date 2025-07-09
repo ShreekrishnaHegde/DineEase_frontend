@@ -12,7 +12,7 @@ class LandingScreen extends StatelessWidget {
     final screenHeight=MediaQuery.of(context).size.height;
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
-      backgroundColor: Colors.deepOrangeAccent,
+      backgroundColor: Color(0xFF140447),
       minimumSize: Size(double.infinity,50),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -35,7 +35,7 @@ class LandingScreen extends StatelessWidget {
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
-                  color: Colors.deepOrangeAccent,
+                  color: Color(0xFF140447),
                   letterSpacing: 0.8,
                   height: 1.4,
                 ),

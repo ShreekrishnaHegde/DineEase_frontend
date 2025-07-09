@@ -115,13 +115,6 @@ class _HotelDashboardState extends State<HotelDashboard> {
                       ),
                     ),
                   ),
-                  // Text(
-                  //   "FullName",
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 28,
-                  //   ),
-                  // )
                 ],
               )
             ),
