@@ -4,6 +4,7 @@ import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
 import 'package:dine_ease/service/hotel_service/hotel_order_service.dart';
+import 'package:dine_ease/service/notification_service.dart';
 import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
 import 'package:dine_ease/views/hotel_view/hotel_stats.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class HotelDashboard extends StatefulWidget {
 
 class _HotelDashboardState extends State<HotelDashboard> {
   List<dynamic> _orders = [];
-  // List<dynamic> _previousOrders= [];
+  List<dynamic> _previousOrders=[];
   final authService=AuthService();
   final hotelOrderService=HotelOrderService();
   final hotelProfileService=HotelProfileService();
@@ -35,6 +36,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
     super.initState();
     _hotelUsername=widget.hotelUsername;
     _hotelUsername = widget.hotelUsername;
+    NotificationService().initNotification();
     loadProfile();
     _loadOrders(); // initial load
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
@@ -53,20 +55,17 @@ class _HotelDashboardState extends State<HotelDashboard> {
     _timer?.cancel();
     super.dispose();
   }
-  bool _areOrdersEqual(List<dynamic> a, List<dynamic> b) {
-    // Very basic comparison — improve with deep equality if needed
-    for (int i = 0; i < a.length; i++) {
-      if (i >= b.length || a[i]['id'] != b[i]['id']) {
-        return false;
-      }
-    }
-    return a.length == b.length;
-  }
   Future<void> _loadOrders() async {
     try {
       final data = await hotelOrderService.fetchOrders(_hotelUsername);
+      if (_previousOrders.isNotEmpty && data.length > _previousOrders.length) {
+        NotificationService().showNotification(
+          title: "New Order",
+          body: "You received a new customer order!",
+        );
+      }
       setState(() {
-        // _previousOrders=_orders;
+        _previousOrders=_orders;
         _orders = data;
       });
     } catch (e) {

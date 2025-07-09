@@ -6,8 +6,6 @@ import 'package:dine_ease/views/customer_view/customer_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'customer_order_page.dart';
-
 class CustomerCartScreen extends StatefulWidget {
   final Map<Item,int> cart;
   final String username;
@@ -41,8 +39,6 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
       }
     });
   }
-
-
   double  get total => _cart.entries.fold(
     0,
         (sum, entry) => sum + entry.key.itemPrice * entry.value,

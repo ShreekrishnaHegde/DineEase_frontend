@@ -1,7 +1,6 @@
 import 'package:dine_ease/models/Category.dart';
 import 'package:dine_ease/models/Item.dart';
 import 'package:dine_ease/service/customer_service/customer_menu_service.dart';
-import 'package:dine_ease/service/hotel_service/menu_service.dart';
 import 'package:dine_ease/views/customer_view/customer_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
