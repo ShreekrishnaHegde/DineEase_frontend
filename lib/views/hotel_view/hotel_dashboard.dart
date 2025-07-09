@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:dine_ease/service/auth_service/auth_gate.dart';
 import 'package:dine_ease/service/auth_service/auth_service.dart';
 import 'package:dine_ease/service/hotel_service/HotelProfileService.dart';
 import 'package:dine_ease/service/hotel_service/hotel_order_service.dart';
+import 'package:dine_ease/service/notification_service.dart';
 import 'package:dine_ease/views/hotel_view/hotel_profile.dart';
 import 'package:dine_ease/views/hotel_view/hotel_stats.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +22,13 @@ class HotelDashboard extends StatefulWidget {
 
 class _HotelDashboardState extends State<HotelDashboard> {
   List<dynamic> _orders = [];
-  // List<dynamic> _previousOrders= [];
+  List<dynamic> _previousOrders=[];
   final authService=AuthService();
   final hotelOrderService=HotelOrderService();
   final hotelProfileService=HotelProfileService();
   late String _hotelUsername;
   String hotelName="";
+  String _fullname="";
   Timer? _timer;
   bool isLoading=true;
   @override
@@ -35,6 +36,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
     super.initState();
     _hotelUsername=widget.hotelUsername;
     _hotelUsername = widget.hotelUsername;
+    NotificationService().initNotification();
     loadProfile();
     _loadOrders(); // initial load
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
@@ -45,6 +47,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
     final profile = await hotelProfileService.fetchProfile();
     setState(() {
       hotelName = profile.hotelName!;
+      _fullname=profile.fullname;
       isLoading = false;
     });
   }
@@ -53,24 +56,22 @@ class _HotelDashboardState extends State<HotelDashboard> {
     _timer?.cancel();
     super.dispose();
   }
-  bool _areOrdersEqual(List<dynamic> a, List<dynamic> b) {
-    // Very basic comparison — improve with deep equality if needed
-    for (int i = 0; i < a.length; i++) {
-      if (i >= b.length || a[i]['id'] != b[i]['id']) {
-        return false;
-      }
-    }
-    return a.length == b.length;
-  }
   Future<void> _loadOrders() async {
     try {
       final data = await hotelOrderService.fetchOrders(_hotelUsername);
+      if (_previousOrders.isNotEmpty && data.length > _previousOrders.length) {
+        await NotificationService().showNotification(
+          title: "New Order",
+          body: "You received a new customer order!",
+        );
+      }
       setState(() {
-        // _previousOrders=_orders;
+        _previousOrders=_orders;
         _orders = data;
       });
-    } catch (e) {
-      print('Failed to load orders: $e');
+    }
+    catch(e){
+      debugPrint("Failed to fetch orders or show notification: $e");
     }
   }
   @override
@@ -78,15 +79,9 @@ class _HotelDashboardState extends State<HotelDashboard> {
     //How many orders to show?
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: (){},
-          )
-        ],
         centerTitle: true,
         title:  Text(
-          isLoading ? "Loading..." : "$hotelName",
+          isLoading ? "Loading..." : hotelName,
           style: GoogleFonts.poppins(
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -98,7 +93,7 @@ class _HotelDashboardState extends State<HotelDashboard> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(color: Colors.lightBlue),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -107,21 +102,14 @@ class _HotelDashboardState extends State<HotelDashboard> {
                     radius: 40,
                     backgroundColor: Colors.white,
                     child: Text(
-                      "A",
-                      style: TextStyle(
+                      _fullname.isNotEmpty ? _fullname[0].toUpperCase() : '',
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28,
                         color: Colors.lightBlue,
                       ),
                     ),
                   ),
-                  // Text(
-                  //   "FullName",
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 28,
-                  //   ),
-                  // )
                 ],
               )
             ),
@@ -130,7 +118,10 @@ class _HotelDashboardState extends State<HotelDashboard> {
               title: const Text("Profile"),
               onTap: (){
                 setState(() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelProfile()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelProfile()))
+                  .then((_)=>{
+                    loadProfile(),
+                  });
                 });
               },
             ),
@@ -153,12 +144,13 @@ class _HotelDashboardState extends State<HotelDashboard> {
           : ListView.builder(
         itemCount: _orders.length,
         itemBuilder: (context, index) {
-          final order = _orders[index];
+          final reversedOrders = _orders.reversed.toList();
+          final order = reversedOrders[index];
           return Card(
             color: Colors.grey.shade100,
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: ListTile(
-              title: Text("Order #${index + 1}"),
+              title: Text("Order #${_orders.length-index }"),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -193,21 +185,21 @@ class _HotelDashboardState extends State<HotelDashboard> {
                   ),
                 ),
               ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
-                  },
-                  child: Text(
-                    "Statistics",
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
+              // Expanded(
+              //   child: TextButton(
+              //     onPressed: () {
+              //       Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelStats()));
+              //     },
+              //     child: Text(
+              //       "Statistics",
+              //       style: GoogleFonts.poppins(
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 18,
+              //         color: Colors.black,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

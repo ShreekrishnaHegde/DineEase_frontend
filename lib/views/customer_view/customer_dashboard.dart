@@ -61,7 +61,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
         _results = results;
       });
     } catch (e) {
-      print("Search error: $e");
+      debugPrint("Search error: $e");
     }
   }
   @override
@@ -85,7 +85,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
               height: 1.4,
             ),
           ),
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.lightBlue,
         actions: [
           IconButton(
             icon: Icon(Icons.receipt_long),
@@ -101,14 +101,24 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.deepOrangeAccent),
-              child: Text(
-                "",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24
-                ),
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.lightBlue),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      _fullname.isNotEmpty ? _fullname[0].toUpperCase() : '',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: Colors.lightBlue,
+                      ),
+                      ),
+                    ),
+                ],
               ),
             ),
             ListTile(
@@ -116,7 +126,10 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
               title: const Text("Profile"),
               onTap: (){
                 setState(() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerProfile()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerProfile()))
+                  .then((_){
+                    loadProfile();
+                  });
                 });
               },
             ),
@@ -167,7 +180,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
                   fillColor: Colors.white,
                   contentPadding: const EdgeInsets.symmetric(vertical: 0),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     borderSide: BorderSide.none,
                   ),
                 ),
@@ -200,8 +213,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(12),
                               leading: CircleAvatar(
-                                backgroundColor: Colors.deepOrange.shade100,
-                                child: const Icon(Icons.store, color: Colors.deepOrange),
+                                child: const Icon(Icons.store),
                               ),
                               title: Text(
                                 hotel.hotelName!,

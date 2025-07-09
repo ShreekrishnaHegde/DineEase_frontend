@@ -36,12 +36,12 @@ class MenuService{
   }
   //Method to delete a category
   Future<void> deleteCategory(String categoryId) async{
-    final response=await http.delete(Uri.parse("$baseUrl/api/hotel/$username/menu/category/$categoryId"));
+    await http.delete(Uri.parse("$baseUrl/api/hotel/$username/menu/category/$categoryId"));
   }
   //Methods to add items into a cat
   Future<void> addItems(String categoryId,List<Item> items) async{
     final itemList=items.map((e) => e.toJson()).toList();
-    final response=await http.post(
+    await http.post(
       Uri.parse("$baseUrl/api/hotel/$username/menu/category/$categoryId/item"),
       body: jsonEncode(itemList),
       headers: {'Content-Type': 'application/json'},

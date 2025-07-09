@@ -65,7 +65,7 @@ class _HotelProfileState extends State<HotelProfile> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.lightBlue,
       ),
       body: isLoading
         ? const Center(child: CircularProgressIndicator())
@@ -145,7 +145,7 @@ class _HotelProfileState extends State<HotelProfile> {
                 child: ElevatedButton(
                   onPressed: saveProfile,
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrangeAccent,
+                      backgroundColor: Colors.lightBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       )

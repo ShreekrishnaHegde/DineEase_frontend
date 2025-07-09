@@ -120,10 +120,10 @@ class _HotelMenuState extends State<HotelMenu> {
                 }
 
               },
-              icon: const Icon(Icons.save),
-              label: const Text("Save All"),
+              icon: const Icon(Icons.save,color: Colors.white,),
+              label: const Text("Save All",style: TextStyle(color: Colors.white),),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.deepPurple,
               ),
             )
           ],
@@ -173,7 +173,7 @@ class _HotelMenuState extends State<HotelMenu> {
       backgroundColor: const Color(0xfff8f8f8),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.lightBlue,
         title: Text("Menu Manager",style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
         automaticallyImplyLeading: true,
       ),
@@ -208,7 +208,7 @@ class _HotelMenuState extends State<HotelMenu> {
                       spacing: 8,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
+                          icon: const Icon(Icons.delete, color: Color(0xFFE53935)),
                           tooltip: "Delete Category",
                           onPressed: () async {
                             await _service.deleteCategory(category.id);
@@ -216,7 +216,7 @@ class _HotelMenuState extends State<HotelMenu> {
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.add, color: Colors.green),
+                          icon: const Icon(Icons.add, color: Color(0xFF4CAF50)),
                           tooltip: "Add Item",
                           onPressed: () => _addItemDialog(category),
                         ),

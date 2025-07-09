@@ -1,11 +1,10 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:dine_ease/models/Item.dart';
 import 'package:dine_ease/service/customer_service/customer_order_service.dart';
+import 'package:dine_ease/service/notification_service.dart';
 import 'package:dine_ease/views/customer_view/customer_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'customer_order_page.dart';
 
 class CustomerCartScreen extends StatefulWidget {
   final Map<Item,int> cart;
@@ -40,8 +39,6 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
       }
     });
   }
-
-
   double  get total => _cart.entries.fold(
     0,
         (sum, entry) => sum + entry.key.itemPrice * entry.value,
@@ -93,7 +90,7 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                     onPressed: (){
                       _decreaseQty(item);
                     },
-                    icon: const Icon(Icons.remove_circle_outline,color: Colors.deepOrange,),
+                    icon: const Icon(Icons.remove_circle_outline,),
                   ),
                   Text(
                       "$qty",
@@ -103,7 +100,7 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                     onPressed: (){
                       _increaseQty(item);
                     },
-                    icon: const Icon(Icons.add_circle_outline,color: Colors.deepOrange,),
+                    icon: const Icon(Icons.add_circle_outline),
                   )
                 ],
               ),
@@ -150,7 +147,7 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                     flushbarPosition: FlushbarPosition.TOP,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     borderRadius: BorderRadius.circular(12),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Color(0xFF3166B8),
                     animationDuration: const Duration(milliseconds: 500),
                   ).show(context);
                   await Future.delayed(const Duration(seconds: 2));
@@ -166,7 +163,7 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepOrangeAccent,
+                backgroundColor: Colors.lightBlue,
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
