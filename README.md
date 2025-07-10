@@ -1,16 +1,51 @@
-# dine_ease
+# 🍽️ DineEase – A Scalable Food Ordering & Billing Platform for Hotels
 
-The DineEase is a generalized software solution designed to streamline food ordering and  billing processes for hotels and restaurants.
+DineEase is a full-stack application that enables hotels to manage menus, accept customer orders, and process billing, while allowing customers to search, order, and track food in real-time. The platform is built with scalability and real-world usability in mind.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+### 👥 Users
+- **Customer Interface**
+  - Search hotels
+  - Browse categorized menus
+  - Add items to cart & place orders
+  - Track order status
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Hotel Interface**
+  - Login/signup via Supabase
+  - Profile management
+  - Menu management: categories & items (CRUD)
+  - Real-time order management with push notifications
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🧱 Tech Stack
+
+| Layer         | Technology                     |
+|--------------|---------------------------------|
+| Frontend     | Flutter                         |
+| Backend      | Spring Boot                     |
+| Authentication | Supabase Auth                |
+| Database     | MongoDB Atlas                   |
+| Deployment   | Railway                         |
+| Notifications| flutter_local_notifications     |
+
+---
+
+## 🔐 Authentication
+
+- Powered by **Supabase**
+- Role-based: `customer` and `hotel`
+- Secure session and profile management
+
+---
+
+## 🛠️ Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/dineease.git
+cd dineease
