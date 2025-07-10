@@ -26,6 +26,7 @@ class NotificationService{
           channelDescription: 'Daily Notification Channel',
           importance: Importance.max,
           priority: Priority.high,
+          playSound: true,
         )
       );
   }
@@ -36,4 +37,6 @@ class NotificationService{
 })async{
     return notificationPlugin.show(id, title, body,  notificationDetails());
   }
+
+
 }
